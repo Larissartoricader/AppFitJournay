@@ -8,6 +8,18 @@ import BackButton from "../components/BackButton";
 import { people } from "@/lib/dummydata";
 import { useSession } from "next-auth/react";
 
+const ProfilePageStyled = styled.div`
+  position: relative;
+  padding: 20px 10px;
+`;
+
+const ProfileNameHeading = styled.h1`
+  position: relative;
+  margin-top: 50px;
+  margin-left: 20px;
+  font-size: 2rem;
+`;
+
 const Wrapper = styled.div`
   width: 90%;
   margin: 0 auto;
@@ -155,9 +167,9 @@ export default function Home() {
   }
 
   return (
-    <>
+    <ProfilePageStyled>
       <BackButton />
-      <h1>Hello, {session?.user?.name}</h1>
+      <ProfileNameHeading>Hello, {session?.user?.name}</ProfileNameHeading>
       <Wrapper>
         <Cols>
           {[
@@ -242,6 +254,6 @@ export default function Home() {
           ))}
         </Cols>
       </Wrapper>
-    </>
+    </ProfilePageStyled>
   );
 }
