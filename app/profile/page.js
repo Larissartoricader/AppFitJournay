@@ -6,6 +6,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
 import { people } from "@/lib/dummydata";
+import { useSession } from "next-auth/react";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -141,10 +142,22 @@ export default function Home() {
   const handleMouseEnter = (index) => setHoveredIndex(index);
   const handleMouseLeave = () => setHoveredIndex(null);
 
+  const { data: session, status } = useSession();
+
+  console.log("Session data:", session);
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  if (status === "unauthenticated") {
+    return <p>You must be logged in to view this page.</p>;
+  }
+
   return (
     <>
       <BackButton />
-      <h1>Hello, {people[1].owner}</h1>
+      <h1>Hello, {session?.user?.name}</h1>
       <Wrapper>
         <Cols>
           {[
@@ -154,7 +167,7 @@ export default function Home() {
               subtitle: "Insert your weight",
               description:
                 "Enter your weight every day to get an overview of your progress and to analyze your metabolism. ",
-              url: "/data",
+              url: "/profile/data",
               imageUrl:
                 "https://images.unsplash.com/photo-1522844990619-4951c40f7eda?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -164,7 +177,7 @@ export default function Home() {
               subtitle: "Check out your progress",
               description:
                 "Check the high and low points of your journey to have a realistic expectation of your goals. ",
-              url: "/journay",
+              url: "/profile/journay",
               imageUrl:
                 "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -174,7 +187,7 @@ export default function Home() {
               subtitle: "Estimated success",
               description:
                 "See the projections for achieving your goals based on your development to date. ",
-              url: "/data",
+              url: "/profile/data",
               imageUrl:
                 "https://plus.unsplash.com/premium_photo-1682310130165-3c648c1e4649?q=80&w=3012&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -184,7 +197,7 @@ export default function Home() {
               subtitle: "Highs and lows",
               description:
                 "Enter your impressions and information that will be added to your journey that goes far beyond the bodily. ",
-              url: "/data",
+              url: "/profile/data",
               imageUrl:
                 "https://plus.unsplash.com/premium_photo-1661767959390-c0ad35845cce?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },

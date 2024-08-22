@@ -13,7 +13,7 @@ import {
 } from "chart.js";
 import { useState } from "react";
 import { people } from "@/lib/dummydata";
-import BackButton from "../components/BackButton";
+import BackButton from "@/app/components/BackButton";
 
 ChartJS.register(
   CategoryScale,

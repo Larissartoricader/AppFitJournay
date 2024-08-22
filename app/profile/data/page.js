@@ -1,7 +1,7 @@
 "use client";
 
+import BackButton from "@/app/components/BackButton";
 import styled from "styled-components";
-import BackButton from "../components/BackButton";
 
 const DataPage = styled.div`
   position: relativ;

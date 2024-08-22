@@ -25,8 +25,8 @@ export const authOptions = {
           credentials.password === "test"
         ) {
           return {
-            name: "Neuer Fisch",
-            email: "test@example.com",
+            name: "Professional Tester",
+            email: "testme@thankyou.com",
           };
         }
 
