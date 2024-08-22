@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
+import { people } from "@/lib/dummydata";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -143,7 +144,7 @@ export default function Home() {
   return (
     <>
       <BackButton />
-      <h1>Hello</h1>
+      <h1>Hello, {people[1].owner}</h1>
       <Wrapper>
         <Cols>
           {[
