@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { useState } from "react";
 import styled from "styled-components";
+import BackButton from "../components/BackButton";
 
 const Wrapper = styled.div`
   width: 90%;
@@ -141,6 +142,7 @@ export default function Home() {
 
   return (
     <>
+      <BackButton />
       <h1>Hello</h1>
       <Wrapper>
         <Cols>

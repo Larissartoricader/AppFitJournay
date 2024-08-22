@@ -1,6 +1,8 @@
 "use client";
+
+import { useRouter } from "next/navigation";
+
 import styled from "styled-components";
-import { useRouter } from "next/router";
 
 const StyledBackLink = styled.button`
   background-color: #8f44fd;
