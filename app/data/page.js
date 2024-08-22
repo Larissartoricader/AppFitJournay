@@ -1,4 +1,7 @@
+"use client";
+
 import styled from "styled-components";
+import BackButton from "../components/BackButton";
 
 const DataPage = styled.div`
   position: relativ;
@@ -102,6 +105,7 @@ const SubmitSpan1 = styled.span`
 export default function weightSubmition() {
   return (
     <DataPage>
+      <BackButton />
       <h1>Insert Weight</h1>
       <StyledForm>
         <label htmlFor="date">Date</label>
