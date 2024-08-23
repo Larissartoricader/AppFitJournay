@@ -7,6 +7,7 @@ import styled from "styled-components";
 import BackButton from "../components/BackButton";
 import { people } from "@/lib/dummydata";
 import { useSession } from "next-auth/react";
+import useSWR from "swr";
 
 const ProfilePageStyled = styled.div`
   position: relative;
@@ -155,10 +156,17 @@ export default function Home() {
   const handleMouseLeave = () => setHoveredIndex(null);
 
   const { data: session, status } = useSession();
+  const { data: users, isLoading, error } = useSWR("/api/users");
 
-  console.log("Session data:", session);
+  console.log(session.user.email);
+  console.log(users);
 
-  if (status === "loading") {
+  const currentUser =
+    session?.user?.email && users
+      ? users.find((user) => user.email === session.user.email)
+      : null;
+
+  if (status === "loading" || isLoading) {
     return <p>Loading...</p>;
   }
 
@@ -166,10 +174,23 @@ export default function Home() {
     return <p>You must be logged in to view this page.</p>;
   }
 
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+
+  if (error) {
+    return <h1>Ops! Something went wrong while trying to read the Data</h1>;
+  }
+
   return (
     <ProfilePageStyled>
       <BackButton />
-      <ProfileNameHeading>Hello, {session?.user?.name}</ProfileNameHeading>
+      {currentUser ? (
+        <ProfileNameHeading>Hello, {currentUser.owner}</ProfileNameHeading>
+      ) : (
+        <p>User not found</p>
+      )}
+
       <Wrapper>
         <Cols>
           {[
