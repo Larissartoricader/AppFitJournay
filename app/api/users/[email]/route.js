@@ -1,13 +1,24 @@
 import dbConnect from "../../../../db/connect";
 import User from "../../../../models/User";
 
-export async function GET(req, { params }) {
+export async function GET(req) {
   await dbConnect();
 
-  const { id } = params;
+  const url = new URL(req.url, `http://${req.headers.host}`);
+  const email = url.searchParams.get("email");
+
+  if (!email) {
+    return new Response(
+      JSON.stringify({ error: "Email query parameter is required" }),
+      {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  }
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findOne({ email: email });
 
     if (!user) {
       return new Response(JSON.stringify({ error: "User not found" }), {
