@@ -1,10 +1,12 @@
+// api/users/email/route.js
+
 import dbConnect from "../../../../db/connect";
 import User from "../../../../models/User";
 
 export async function GET(req) {
   await dbConnect();
 
-  const url = new URL(req.url, `http://${req.headers.host}`);
+  const url = new URL(req.url);
   const email = url.searchParams.get("email");
 
   if (!email) {

@@ -203,7 +203,7 @@ export default function Profile() {
       ) : (
         <p>User not found</p>
       )}
-
+      ‚
       <Wrapper>
         <Cols>
           {[
