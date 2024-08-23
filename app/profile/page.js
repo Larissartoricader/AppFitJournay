@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
 import { people } from "@/lib/dummydata";
 import { useSession } from "next-auth/react";
+import useSWR from "swr";
 
 const ProfilePageStyled = styled.div`
   position: relative;
@@ -148,15 +149,39 @@ const StyledLink = styled(Link)`
   }
 `;
 
-export default function Home() {
+export default function Profile() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleMouseEnter = (index) => setHoveredIndex(index);
   const handleMouseLeave = () => setHoveredIndex(null);
 
   const { data: session, status } = useSession();
+  const [email, setEmail] = useState(null);
+  const { data: currentUser, error } = useSWR(
+    email ? `/api/users/email?email=${encodeURIComponent(email)}` : null
+  );
 
-  console.log("Session data:", session);
+  // if (status === "loading" || isLoading) {
+  //   return <p>Loading...</p>;
+  // }
+
+  // if (status === "unauthenticated") {
+  //   return <p>You must be logged in to view this page.</p>;
+  // }
+
+  // if (isLoading) {
+  //   return <h2>Loading...</h2>;
+  // }
+
+  // if (error) {
+  //   return <h1>Ops! Something went wrong while trying to read the Data</h1>;
+  // }
+
+  useEffect(() => {
+    if (session) {
+      setEmail(session.user.email);
+    }
+  }, [session]);
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -166,10 +191,19 @@ export default function Home() {
     return <p>You must be logged in to view this page.</p>;
   }
 
+  if (error) {
+    return <h1>Ops! Something went wrong while trying to read the Data</h1>;
+  }
+
   return (
     <ProfilePageStyled>
       <BackButton />
-      <ProfileNameHeading>Hello, {session?.user?.name}</ProfileNameHeading>
+      {currentUser ? (
+        <ProfileNameHeading>Hello, {currentUser.owner}</ProfileNameHeading>
+      ) : (
+        <p>User not found</p>
+      )}
+
       <Wrapper>
         <Cols>
           {[

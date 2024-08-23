@@ -55,7 +55,7 @@ export default function Journay() {
   return (
     <>
       <BackButton />
-      <h1>Welcome to your Fit Journay, {people[2].owner}</h1>
+      <h1>Welcome to your Fit Journay, {people[2].email}</h1>
 
       <Line data={chartData} options={options} />
     </>
