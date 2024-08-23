@@ -161,22 +161,6 @@ export default function Profile() {
     email ? `/api/users/email?email=${encodeURIComponent(email)}` : null
   );
 
-  // if (status === "loading" || isLoading) {
-  //   return <p>Loading...</p>;
-  // }
-
-  // if (status === "unauthenticated") {
-  //   return <p>You must be logged in to view this page.</p>;
-  // }
-
-  // if (isLoading) {
-  //   return <h2>Loading...</h2>;
-  // }
-
-  // if (error) {
-  //   return <h1>Ops! Something went wrong while trying to read the Data</h1>;
-  // }
-
   useEffect(() => {
     if (session) {
       setEmail(session.user.email);
