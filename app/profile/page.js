@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
-import { people } from "@/lib/dummydata";
+
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 
@@ -187,7 +187,7 @@ export default function Profile() {
       ) : (
         <p>User not found</p>
       )}
-      ‚
+
       <Wrapper>
         <Cols>
           {[
