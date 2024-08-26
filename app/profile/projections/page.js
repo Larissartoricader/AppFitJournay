@@ -4,6 +4,7 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import BackButton from "@/app/components/BackButton";
 import styled from "styled-components";
+import DaysCalculator from "@/app/components/DaysCalculator";
 
 const ProjectionsPageStyled = styled.div`
   position: relative;
@@ -45,13 +46,21 @@ export default function Projections() {
     <ProjectionsPageStyled>
       <BackButton />
       <ProjectionseNameHeading>Projections</ProjectionseNameHeading>
-      {currentUser ? <h1>{currentUser.owner}</h1> : <p>User not found</p>}
+      {currentUser ? (
+        <h2>Hello, {currentUser.owner}</h2>
+      ) : (
+        <p>User not found</p>
+      )}
       {currentUser ? (
         <h2>{currentUser.projection}kg</h2>
       ) : (
         <p>User not found</p>
       )}
-      <p></p>
+      {currentUser ? (
+        <DaysCalculator currentUser={currentUser} />
+      ) : (
+        <p>User not found</p>
+      )}
     </ProjectionsPageStyled>
   );
 }
