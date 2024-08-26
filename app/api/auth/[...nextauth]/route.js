@@ -22,11 +22,11 @@ export const authOptions = {
       async authorize(credentials) {
         if (
           credentials.username === "test" &&
-          credentials.password === "test"
+          credentials.password === "test@test.com"
         ) {
           return {
-            name: "Professional Tester",
-            email: "testme@thankyou.com",
+            name: "test",
+            email: "test@test.com",
           };
         }
 

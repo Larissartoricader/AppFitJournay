@@ -3,6 +3,19 @@ import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import { useEffect, useState } from "react";
 import BackButton from "@/app/components/BackButton";
+import styled from "styled-components";
+
+const ProjectionsPageStyled = styled.div`
+  position: relative;
+  padding: 20px 10px;
+`;
+
+const ProjectionseNameHeading = styled.h1`
+  position: relative;
+  margin-top: 50px;
+  margin-left: 20px;
+  font-size: 2rem;
+`;
 
 export default function Projections() {
   const { data: session, status } = useSession();
@@ -29,16 +42,16 @@ export default function Projections() {
     return <h1>Ops! Something went wrong while trying to read the Data</h1>;
   }
   return (
-    <>
+    <ProjectionsPageStyled>
       <BackButton />
-      <h1>Projections</h1>
+      <ProjectionseNameHeading>Projections</ProjectionseNameHeading>
       {currentUser ? <h1>{currentUser.owner}</h1> : <p>User not found</p>}
       {currentUser ? (
-        <h1>{currentUser.projection}kg</h1>
+        <h2>{currentUser.projection}kg</h2>
       ) : (
         <p>User not found</p>
       )}
       <p></p>
-    </>
+    </ProjectionsPageStyled>
   );
 }
