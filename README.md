@@ -1,6 +1,6 @@
 # Tech Stack
 
-**FitJourney** is a sophisticated web application developed using the latest technologies to provide a seamless user experience. Our stack includes:
+**FitJourney** is a web application developed using the latest technologies to provide a seamless user experience. Our stack includes:
 
 - **JavaScript**
 - **React**
