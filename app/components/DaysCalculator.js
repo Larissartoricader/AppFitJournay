@@ -39,7 +39,7 @@ export default function DaysCalculator({ currentUser }) {
   return (
     <>
       <p>
-        {userName}, You've updated your weight {numberOfEntries} times. The
+        {/* {userName}, You've updated your weight {numberOfEntries} times. The
         first time you updated your weight, was on {oldestEntryDay}{" "}
         {oldestEntryMonth}, {oldestEntryYear}. Back then you weight were
         {oldestWeight}, but now on {latestEntryDay} {latestEntryMonth},
@@ -50,8 +50,9 @@ export default function DaysCalculator({ currentUser }) {
       <p>You're only {lackingPercentage}% away from archiving your goal</p>
 
       <p>
-        It will take you approximately {daysToReachGoal} days to reach your goal{" "}
+        It will take you approximately {daysToReachGoal} days to reach your goal{" "} */}
       </p>
+      {currentUser.owner}
     </>
   );
 }
