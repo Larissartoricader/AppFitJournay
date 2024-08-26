@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { useEffect, useState } from "react";
 import BackButton from "@/app/components/BackButton";
 
-export default function projections() {
+export default function Projections() {
   const { data: session, status } = useSession();
   const [email, setEmail] = useState(null);
   const { data: currentUser, error } = useSWR(
