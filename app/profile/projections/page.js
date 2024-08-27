@@ -56,11 +56,11 @@ export default function Projections() {
       ) : (
         <p>User not found</p>
       )}
-      {/* {currentUser ? (
+      {currentUser ? (
         <DaysCalculator currentUser={currentUser} />
       ) : (
         <p>User not found</p>
-      )} */}
+      )}
     </ProjectionsPageStyled>
   );
 }
