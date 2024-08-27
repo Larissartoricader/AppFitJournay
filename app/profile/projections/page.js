@@ -19,34 +19,34 @@ const ProjectionseNameHeading = styled.h1`
 `;
 
 export default function Projections() {
-  const { data: session, status } = useSession();
-  const [email, setEmail] = useState(null);
-  const { data: currentUser, error } = useSWR(
-    email ? `/api/users/email?email=${encodeURIComponent(email)}` : null
-  );
+  // const { data: session, status } = useSession();
+  // const [email, setEmail] = useState(null);
+  // const { data: currentUser, error } = useSWR(
+  //   email ? `/api/users/email?email=${encodeURIComponent(email)}` : null
+  // );
 
-  useEffect(() => {
-    if (session) {
-      setEmail(session.user.email);
-    }
-  }, [session]);
+  // useEffect(() => {
+  //   if (session) {
+  //     setEmail(session.user.email);
+  //   }
+  // }, [session]);
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
+  // if (status === "loading") {
+  //   return <p>Loading...</p>;
+  // }
 
-  if (status === "unauthenticated") {
-    return <p>You must be logged in to view this page.</p>;
-  }
+  // if (status === "unauthenticated") {
+  //   return <p>You must be logged in to view this page.</p>;
+  // }
 
-  if (error) {
-    return <h1>Ops! Something went wrong while trying to read the Data</h1>;
-  }
+  // if (error) {
+  //   return <h1>Ops! Something went wrong while trying to read the Data</h1>;
+  // }
   return (
     <ProjectionsPageStyled>
       <BackButton />
       <ProjectionseNameHeading>Projections</ProjectionseNameHeading>
-      {currentUser ? (
+      {/* {currentUser ? (
         <h2>Hello, {currentUser.owner}</h2>
       ) : (
         <p>User not found</p>
@@ -55,12 +55,12 @@ export default function Projections() {
         <h2>{currentUser.projection}kg</h2>
       ) : (
         <p>User not found</p>
-      )}
-      {currentUser ? (
+      )} */}
+      {/* {currentUser ? (
         <DaysCalculator currentUser={currentUser} />
       ) : (
         <p>User not found</p>
-      )}
+      )} */}
     </ProjectionsPageStyled>
   );
 }

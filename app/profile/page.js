@@ -156,14 +156,14 @@ export default function Profile() {
   const handleMouseLeave = () => setHoveredIndex(null);
 
   const { data: session, status } = useSession();
-  const [email, setEmail] = useState(null);
+  const [owner, setOwner] = useState(null);
   const { data: currentUser, error } = useSWR(
-    email ? `/api/users/email?email=${encodeURIComponent(email)}` : null
+    owner ? `/api/users/owner?owner=${encodeURIComponent(owner)}` : null
   );
 
   useEffect(() => {
     if (session) {
-      setEmail(session.user.email);
+      setOwner(session.user.name);
     }
   }, [session]);
 

@@ -1,5 +1,3 @@
-// api/users/email/route.js
-
 import dbConnect from "../../../../db/connect";
 import User from "../../../../models/User";
 
@@ -10,15 +8,15 @@ export async function GET(req) {
   console.log("Request URL:", req.url);
 
   try {
-    const url = new URL(req.url, `https://${req.headers.host}`); // Adicione a origem para construir URL corretamente
-    const email = url.searchParams.get("email");
+    const url = new URL(req.url, `https://${req.headers.host}`);
+    const owner = url.searchParams.get("owner"); // Extrai o parâmetro owner da query string
 
-    // Log para verificar o parâmetro email extraído
-    console.log("Extracted Email:", email);
+    // Log para verificar o parâmetro owner extraído
+    console.log("Extracted Owner:", owner);
 
-    if (!email) {
+    if (!owner) {
       return new Response(
-        JSON.stringify({ error: "Email query parameter is required" }),
+        JSON.stringify({ error: "Owner query parameter is required" }),
         {
           status: 400,
           headers: { "Content-Type": "application/json" },
@@ -26,7 +24,7 @@ export async function GET(req) {
       );
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ owner });
 
     if (!user) {
       return new Response(JSON.stringify({ error: "User not found" }), {
