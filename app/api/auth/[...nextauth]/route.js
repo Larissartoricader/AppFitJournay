@@ -21,6 +21,15 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (
+          credentials.username === "Paula Fernandez" &&
+          credentials.password === "paula@gmail.com"
+        ) {
+          return {
+            name: "Paula Fernandez",
+            email: "paula@gmail.com",
+          };
+        }
+        if (
           credentials.username === "test" &&
           credentials.password === "test@test.com"
         ) {
