@@ -7,10 +7,10 @@ import { useSession } from "next-auth/react";
 import useSWR from "swr";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { data: users, isLoading, error } = useSWR("/api/users");
 
-  if (isLoading) {
+  if (status === "loading" || isLoading) {
     return <h2>Loading...</h2>;
   }
 
@@ -18,11 +18,33 @@ export default function Home() {
     return <h1>Ops! Something went wrong while trying to read the Data</h1>;
   }
 
+  const userExists =
+    session?.user?.email &&
+    users?.some(
+      (user) =>
+        Array.isArray(user.email) && user.email.includes(session.user.email)
+    );
+
+  const currentUser = users?.find(
+    (user) =>
+      Array.isArray(user.email) && user.email.includes(session?.user?.email)
+  );
+
+  const currentUserId = currentUser ? currentUser._id : null;
+
+  console.log("Session data:", session);
+  console.log("Users data:", users);
+  console.log("User exists:", userExists);
+  console.log("Current User Object:", currentUser);
+  console.log("Current User ID:", currentUserId);
+
   return (
     <>
       <h1>FitJourney</h1>
+
       <Login />
-      {session && (
+
+      {session && userExists && (
         <Link href="./profile">
           <button>Profil</button>
         </Link>
