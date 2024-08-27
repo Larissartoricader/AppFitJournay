@@ -1,5 +1,3 @@
-// api/users/email/route.js
-
 import dbConnect from "../../../../db/connect";
 import User from "../../../../models/User";
 
@@ -20,7 +18,7 @@ export async function GET(req) {
   }
 
   try {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return new Response(JSON.stringify({ error: "User not found" }), {
