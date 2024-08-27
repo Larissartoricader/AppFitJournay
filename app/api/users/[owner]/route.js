@@ -24,7 +24,7 @@ export async function GET(req) {
       );
     }
 
-    const user = await User.findOne({ owner });
+    const user = await User.findOne({ owner: owner.trim() }); // Use `owner.trim()` para remover espaços em branco adicionais
 
     if (!user) {
       return new Response(JSON.stringify({ error: "User not found" }), {
