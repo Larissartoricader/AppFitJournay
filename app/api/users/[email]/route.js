@@ -6,14 +6,14 @@ import User from "../../../../models/User";
 export async function GET(req) {
   await dbConnect();
 
-  // Adicione log para verificar o conteúdo de req.url
+  // Log URL para verificar o que está sendo recebido
   console.log("Request URL:", req.url);
 
   try {
-    const url = new URL(req.url);
+    const url = new URL(req.url, `https://${req.headers.host}`); // Adicione a origem para construir URL corretamente
     const email = url.searchParams.get("email");
 
-    // Adicione log para verificar o parâmetro email
+    // Log para verificar o parâmetro email extraído
     console.log("Extracted Email:", email);
 
     if (!email) {
