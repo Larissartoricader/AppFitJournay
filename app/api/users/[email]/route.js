@@ -1,23 +1,31 @@
+// api/users/email/route.js
+
 import dbConnect from "../../../../db/connect";
 import User from "../../../../models/User";
 
 export async function GET(req) {
   await dbConnect();
 
-  const url = new URL(req.url);
-  const email = url.searchParams.get("email");
-
-  if (!email) {
-    return new Response(
-      JSON.stringify({ error: "Email query parameter is required" }),
-      {
-        status: 400,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
-  }
+  // Adicione log para verificar o conteúdo de req.url
+  console.log("Request URL:", req.url);
 
   try {
+    const url = new URL(req.url);
+    const email = url.searchParams.get("email");
+
+    // Adicione log para verificar o parâmetro email
+    console.log("Extracted Email:", email);
+
+    if (!email) {
+      return new Response(
+        JSON.stringify({ error: "Email query parameter is required" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
     const user = await User.findOne({ email });
 
     if (!user) {
