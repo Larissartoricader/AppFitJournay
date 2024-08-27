@@ -39,7 +39,7 @@ export default function DaysCalculator({ currentUser }) {
   return (
     <>
       <p>
-        {userName}, You've updated your weight {numberOfEntries} times. The
+        {userName}, You have updated your weight {numberOfEntries} times. The
         first time you updated your weight, was on {oldestEntryDay}{" "}
         {oldestEntryMonth}, {oldestEntryYear}. Back then you weight were
         {oldestWeight}, but now on {latestEntryDay} {latestEntryMonth},
@@ -47,7 +47,7 @@ export default function DaysCalculator({ currentUser }) {
         the way in only {diffInDays} days!
       </p>
       <p>You already archive {percentageAchieved}% of your goal</p>
-      <p>You're only {lackingPercentage}% away from archiving your goal</p>
+      <p>You are only {lackingPercentage}% away from archiving your goal</p>
 
       <p>
         It will take you approximately {daysToReachGoal} days to reach your goal{" "}
