@@ -38,6 +38,15 @@ export const authOptions = {
             email: "test@test.com",
           };
         }
+        if (
+          credentials.username === "test2" &&
+          credentials.password === "test2@test.com"
+        ) {
+          return {
+            name: "test2",
+            email: "test2@test.com",
+          };
+        }
 
         return null;
       },
