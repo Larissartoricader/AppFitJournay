@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
 
@@ -155,38 +155,11 @@ export default function Profile() {
   const handleMouseEnter = (index) => setHoveredIndex(index);
   const handleMouseLeave = () => setHoveredIndex(null);
 
-  const { data: session, status } = useSession();
-  const [owner, setOwner] = useState(null);
-  const { data: currentUser, error } = useSWR(
-    owner ? `/api/users/owner?owner=${encodeURIComponent(owner)}` : null
-  );
-
-  useEffect(() => {
-    if (session) {
-      setOwner(session.user.name);
-    }
-  }, [session]);
-
-  if (status === "loading") {
-    return <p>Loading...</p>;
-  }
-
-  if (status === "unauthenticated") {
-    return <p>You must be logged in to view this page.</p>;
-  }
-
-  if (error) {
-    return <h1>Ops! Something went wrong while trying to read the Data</h1>;
-  }
-
   return (
     <ProfilePageStyled>
       <BackButton />
-      {currentUser ? (
-        <ProfileNameHeading>Hello, {currentUser.owner}</ProfileNameHeading>
-      ) : (
-        <p>User not found</p>
-      )}
+
+      <ProfileNameHeading>Hello, </ProfileNameHeading>
 
       <Wrapper>
         <Cols>

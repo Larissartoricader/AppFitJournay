@@ -1,30 +1,25 @@
 import dbConnect from "../../../../db/connect";
 import User from "../../../../models/User";
 
-export async function GET(req) {
+export async function GET(req, { params }) {
   await dbConnect();
 
   // Log URL para verificar o que está sendo recebido
   console.log("Request URL:", req.url);
+  console.log("Request Params:", params);
 
   try {
-    const url = new URL(req.url, `https://${req.headers.host}`);
-    const owner = url.searchParams.get("owner"); // Extrai o parâmetro owner da query string
+    const userId = params.id; // Extraí o ID dos parâmetros da rota
 
-    // Log para verificar o parâmetro owner extraído
-    console.log("Extracted Owner:", owner);
-
-    if (!owner) {
-      return new Response(
-        JSON.stringify({ error: "Owner query parameter is required" }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+    if (!userId) {
+      return new Response(JSON.stringify({ error: "User ID is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
     }
 
-    const user = await User.findOne({ owner: owner.trim() }); // Use `owner.trim()` para remover espaços em branco adicionais
+    // Procure o usuário no banco de dados com base no ID
+    const user = await User.findById(userId);
 
     if (!user) {
       return new Response(JSON.stringify({ error: "User not found" }), {
