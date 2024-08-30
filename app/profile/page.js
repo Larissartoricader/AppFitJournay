@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
-
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import useSWR from "swr";
+import { useSearchParams } from "next/navigation";
 
 const ProfilePageStyled = styled.div`
   position: relative;
@@ -155,11 +155,32 @@ export default function Profile() {
   const handleMouseEnter = (index) => setHoveredIndex(index);
   const handleMouseLeave = () => setHoveredIndex(null);
 
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useSWR(userId ? `/api/users/${userId}` : null);
+
+  if (isLoading) {
+    return <h2>Loading user data...</h2>;
+  }
+
+  if (error) {
+    return <h1>Oops! Something went wrong while trying to fetch user data.</h1>;
+  }
+
+  if (!user) {
+    return <h2>No user data available.</h2>;
+  }
+
   return (
     <ProfilePageStyled>
       <BackButton />
 
-      <ProfileNameHeading>Hello, </ProfileNameHeading>
+      <ProfileNameHeading>Hello, {user.owner}</ProfileNameHeading>
 
       <Wrapper>
         <Cols>

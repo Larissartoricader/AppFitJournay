@@ -45,8 +45,8 @@ export default function Home() {
       <Login />
 
       {session && userExists && (
-        <Link href="./profile">
-          <button>Profil</button>
+        <Link href={`./profile?userId=${currentUserId}`}>
+          <button>Profile of {currentUser.owner} </button>
         </Link>
       )}
     </>
