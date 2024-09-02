@@ -1,7 +1,9 @@
 "use client";
 
 import BackButton from "@/app/components/BackButton";
+import { useSearchParams } from "next/navigation";
 import styled from "styled-components";
+import useSWR from "swr";
 
 const DataPage = styled.div`
   position: relativ;
@@ -102,11 +104,32 @@ const SubmitSpan1 = styled.span`
   z-index: 10;
 `;
 
-export default function weightSubmition() {
+export default function WeightSubmition() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useSWR(userId ? `/api/users/${userId}` : null);
+
+  if (isLoading) {
+    return <h2>Loading user data...</h2>;
+  }
+
+  if (error) {
+    return <h1>Oops! Something went wrong while trying to fetch user data.</h1>;
+  }
+
+  if (!user) {
+    return <h2>No user data available.</h2>;
+  }
+
   return (
     <DataPage>
       <BackButton />
-      <h1>Insert Weight</h1>
+      <h1>Insert Weight, {user.owner}</h1>
       <StyledForm>
         <label htmlFor="date">Date</label>
         <StyledInput type="date" id="date" name="date" />

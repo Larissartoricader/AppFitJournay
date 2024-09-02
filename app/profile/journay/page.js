@@ -14,6 +14,8 @@ import {
 import { useState } from "react";
 import { people } from "@/lib/dummydata";
 import BackButton from "@/app/components/BackButton";
+import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 
 ChartJS.register(
   CategoryScale,
@@ -26,12 +28,33 @@ ChartJS.register(
 );
 
 export default function Journay() {
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useSWR(userId ? `/api/users/${userId}` : null);
+
+  if (isLoading) {
+    return <h2>Loading user data...</h2>;
+  }
+
+  if (error) {
+    return <h1>Oops! Something went wrong while trying to fetch user data.</h1>;
+  }
+
+  if (!user) {
+    return <h2>No user data available.</h2>;
+  }
+
   const chartData = {
-    labels: people[2].entries.map((entry) => entry.date),
+    labels: user.entries.map((entry) => entry.date),
     datasets: [
       {
         label: "Weight",
-        data: people[2].entries.map((entry) => entry.weight),
+        data: user.entries.map((entry) => entry.weight),
         backgroundColor: "rgba(75, 132, 122, 0.6)",
         borderColor: "rgba(75, 132, 122, 1)",
         fill: false,
@@ -55,7 +78,7 @@ export default function Journay() {
   return (
     <>
       <BackButton />
-      <h1>Welcome to your Fit Journay, {people[2].email}</h1>
+      <h1>Welcome to your Fit Journay, {user.owner}</h1>
 
       <Line data={chartData} options={options} />
     </>
