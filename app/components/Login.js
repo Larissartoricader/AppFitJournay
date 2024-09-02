@@ -5,6 +5,7 @@ import styled, { keyframes } from "styled-components";
 
 const LoginBox = styled.div`
   background: #141315;
+  border-radius: 20px;
   height: 20vh;
   width: 30vw;
   display: flex;
@@ -86,7 +87,13 @@ export default function Login() {
   if (session) {
     return (
       <LoginBox>
-        Signed in as {session.user.name} and -{session.user.email} <br />
+        <div>
+          <p>Hey {session.user.name},</p>
+          <p>
+            Your are signed in with:&nbsp;
+            {session.user.email}
+          </p>
+        </div>
         <ButtonSignIn onClick={() => signOut()}>
           <SignInSpan>Sign out</SignInSpan>
         </ButtonSignIn>

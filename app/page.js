@@ -1,15 +1,15 @@
 "use client";
 
 import styles from "./page.module.css";
-import Link from "next/link";
-import Login from "./components/Login";
+
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import styled from "styled-components";
+import LogInPage from "./components/LogInPage";
+import LogOutPage from "./components/LogOutPage";
+import CreateProfile from "./components/CreateProfile";
 
-const StyledHomePage = styled.div`
-  margin: 20px;
-`;
+const StyledHomePage = styled.div``;
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -46,12 +46,12 @@ export default function Home() {
   return (
     <StyledHomePage>
       <h1>FitJourney</h1>
-
-      <Login />
-      {session && userExists && (
-        <Link href={`./profile?userId=${currentUserId}`}>
-          <button>Profile of {currentUser.owner} </button>
-        </Link>
+      {!session ? (
+        <LogInPage />
+      ) : userExists ? (
+        <LogOutPage currentUserId={currentUserId} currentUser={currentUser} />
+      ) : (
+        <CreateProfile />
       )}
     </StyledHomePage>
   );
