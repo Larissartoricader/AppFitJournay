@@ -10,6 +10,7 @@
 
 - **NextAuth**: Implemented for authentication with GitHub and Google, along with credential management for testing purposes.
 - **React Chart.js**: Utilized for dynamic and interactive charting.
+- **React Spring**: An animation library used to add fluid animations and transitions to the user interface.
 
 ## Backend
 
