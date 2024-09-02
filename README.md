@@ -26,4 +26,4 @@ Feel free to explore FitJourney using the following credentials:
 - **Username**: test
 - **Email**: test@test.com
 
-We welcome you to experience the features and functionalities of FitJourney.
+I welcome you to experience the features and functionalities of FitJourney.
