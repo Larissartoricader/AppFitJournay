@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import BackButton from "@/app/components/BackButton";
 import styled from "styled-components";
 import DaysCalculator from "@/app/components/DaysCalculator";
+import { useSearchParams } from "next/navigation";
 
 const ProjectionsPageStyled = styled.div`
   position: relative;
@@ -19,48 +20,36 @@ const ProjectionseNameHeading = styled.h1`
 `;
 
 export default function Projections() {
-  // const { data: session, status } = useSession();
-  // const [email, setEmail] = useState(null);
-  // const { data: currentUser, error } = useSWR(
-  //   email ? `/api/users/email?email=${encodeURIComponent(email)}` : null
-  // );
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
 
-  // useEffect(() => {
-  //   if (session) {
-  //     setEmail(session.user.email);
-  //   }
-  // }, [session]);
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useSWR(userId ? `/api/users/${userId}` : null);
 
-  // if (status === "loading") {
-  //   return <p>Loading...</p>;
-  // }
+  if (isLoading) {
+    return <h2>Loading user data...</h2>;
+  }
 
-  // if (status === "unauthenticated") {
-  //   return <p>You must be logged in to view this page.</p>;
-  // }
+  if (error) {
+    return <h1>Oops! Something went wrong while trying to fetch user data.</h1>;
+  }
 
-  // if (error) {
-  //   return <h1>Ops! Something went wrong while trying to read the Data</h1>;
-  // }
+  if (!user) {
+    return <h2>No user data available.</h2>;
+  }
+
   return (
     <ProjectionsPageStyled>
       <BackButton />
       <ProjectionseNameHeading>Projections</ProjectionseNameHeading>
-      {/* {currentUser ? (
-        <h2>Hello, {currentUser.owner}</h2>
-      ) : (
-        <p>User not found</p>
-      )}
-      {currentUser ? (
-        <h2>{currentUser.projection}kg</h2>
-      ) : (
-        <p>User not found</p>
-      )} */}
-      {/* {currentUser ? (
-        <DaysCalculator currentUser={currentUser} />
-      ) : (
-        <p>User not found</p>
-      )} */}
+
+      <h2>Hello, {user.owner}</h2>
+
+      <h2>{user.projection}kg</h2>
+      <DaysCalculator currentUser={user} />
     </ProjectionsPageStyled>
   );
 }

@@ -5,9 +5,9 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
-
-import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import useSWR from "swr";
+import { useSearchParams } from "next/navigation";
 
 const ProfilePageStyled = styled.div`
   position: relative;
@@ -155,11 +155,34 @@ export default function Profile() {
   const handleMouseEnter = (index) => setHoveredIndex(index);
   const handleMouseLeave = () => setHoveredIndex(null);
 
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("userId");
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useSWR(userId ? `/api/users/${userId}` : null);
+
+  console.log(userId);
+
+  if (isLoading) {
+    return <h2>Loading user data...</h2>;
+  }
+
+  if (error) {
+    return <h1>Oops! Something went wrong while trying to fetch user data.</h1>;
+  }
+
+  if (!user) {
+    return <h2>No user data available.</h2>;
+  }
+
   return (
     <ProfilePageStyled>
       <BackButton />
 
-      <ProfileNameHeading>Hello, </ProfileNameHeading>
+      <ProfileNameHeading>Hello, {user.owner}</ProfileNameHeading>
 
       <Wrapper>
         <Cols>
@@ -170,7 +193,7 @@ export default function Profile() {
               subtitle: "Insert your weight",
               description:
                 "Enter your weight every day to get an overview of your progress and to analyze your metabolism. ",
-              url: "/profile/data",
+              url: `/profile/data?userId=${userId}`,
               imageUrl:
                 "https://images.unsplash.com/photo-1522844990619-4951c40f7eda?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -180,7 +203,7 @@ export default function Profile() {
               subtitle: "Check out your progress",
               description:
                 "Check the high and low points of your journey to have a realistic expectation of your goals. ",
-              url: "/profile/journay",
+              url: `/profile/journay?userId=${userId}`,
               imageUrl:
                 "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -190,7 +213,7 @@ export default function Profile() {
               subtitle: "Estimated success",
               description:
                 "See the projections for achieving your goals based on your development to date. ",
-              url: "/profile/projections",
+              url: `/profile/projections?userId=${userId}`,
               imageUrl:
                 "https://plus.unsplash.com/premium_photo-1682310130165-3c648c1e4649?q=80&w=3012&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
@@ -200,7 +223,7 @@ export default function Profile() {
               subtitle: "Highs and lows",
               description:
                 "Enter your impressions and information that will be added to your journey that goes far beyond the bodily. ",
-              url: "/profile/data",
+              url: `/profile/data?userId=${userId}`,
               imageUrl:
                 "https://plus.unsplash.com/premium_photo-1661767959390-c0ad35845cce?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
