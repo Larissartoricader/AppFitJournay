@@ -8,6 +8,7 @@ import styled from "styled-components";
 import LogInPage from "./components/LogInPage";
 import LogOutPage from "./components/LogOutPage";
 import CreateProfile from "./components/CreateProfile";
+import FitJournayHeading from "./components/FitJournayHeading";
 
 const StyledHomePage = styled.div``;
 
@@ -45,7 +46,7 @@ export default function Home() {
 
   return (
     <StyledHomePage>
-      <h1>FitJourney</h1>
+      <FitJournayHeading />
       {!session ? (
         <LogInPage />
       ) : userExists ? (
