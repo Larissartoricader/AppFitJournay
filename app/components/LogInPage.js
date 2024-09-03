@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Login from "./Login";
-import { a, useSpring } from "@react-spring/web";
+import { a, useSpring, useSprings } from "@react-spring/web";
 import { useState } from "react";
 
 const StyledHomePageBody = styled.div`
@@ -58,12 +58,21 @@ export default function LogInPage() {
   const numberOfFeatures = 4;
   const [flipped, set] = useState(Array(numberOfFeatures).fill(true));
 
-  const springs = flipped.map((flip) =>
-    useSpring({
+  // const springs = flipped.map((flip) =>
+  //   useSpring({
+  //     opacity: flip ? 1 : 0,
+  //     transform: `perspective(600px) rotateX(${flip ? 180 : 0}deg)`,
+  //     config: { mass: 5, tension: 500, friction: 80 },
+  //   })
+  // );
+
+  const springs = useSprings(
+    numberOfFeatures,
+    flipped.map((flip) => ({
       opacity: flip ? 1 : 0,
       transform: `perspective(600px) rotateX(${flip ? 180 : 0}deg)`,
       config: { mass: 5, tension: 500, friction: 80 },
-    })
+    }))
   );
 
   const toggleFlip = (index) => {
