@@ -89,9 +89,7 @@ export default function LogInPage() {
         your progress, log in completely free.
       </p>
       <Login />
-      <StyledH2>
-        Still not sure if Fit Journey can help you reach your goals?
-      </StyledH2>
+      <StyledH2>Still not sure about Fit Journey?</StyledH2>
       <p>Check out the features and see how Fit Journey can assist you:</p>
       {flipped.map((flip, index) => (
         <Container key={index} onClick={() => toggleFlip(index)}>
