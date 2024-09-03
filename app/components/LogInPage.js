@@ -14,8 +14,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   height: 30vh;
+
   justify-content: center;
-  position: relative;
 `;
 
 const AnimatedDiv = styled(a.div)`
@@ -57,14 +57,6 @@ const StyledH2 = styled.h2`
 export default function LogInPage() {
   const numberOfFeatures = 4;
   const [flipped, set] = useState(Array(numberOfFeatures).fill(true));
-
-  // const springs = flipped.map((flip) =>
-  //   useSpring({
-  //     opacity: flip ? 1 : 0,
-  //     transform: `perspective(600px) rotateX(${flip ? 180 : 0}deg)`,
-  //     config: { mass: 5, tension: 500, friction: 80 },
-  //   })
-  // );
 
   const springs = useSprings(
     numberOfFeatures,
