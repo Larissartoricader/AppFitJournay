@@ -45,10 +45,6 @@ export default function Projections() {
     <ProjectionsPageStyled>
       <BackButton />
       <ProjectionseNameHeading>Projections</ProjectionseNameHeading>
-
-      <h2>Hello, {user.owner}</h2>
-
-      <h2>{user.projection}kg</h2>
       <DaysCalculator currentUser={user} />
     </ProjectionsPageStyled>
   );
