@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useSWR from "swr";
+import { uid } from "uid";
 
 const StyledForm = styled.form`
   border: solid 2px white;
@@ -98,6 +99,8 @@ const SubmitSpan1 = styled.span`
 
 export default function WeightForm({ user, userId }) {
   const { mutate } = useSWR(`/api/users/${userId}`);
+  console.log(userId);
+  console.log(user);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -105,16 +108,23 @@ export default function WeightForm({ user, userId }) {
     const newWeightEntry = Object.fromEntries(formData);
     console.log(newWeightEntry);
 
+    const entryToAdd = {
+      id: uid(),
+      date: new Date(newWeightEntry.date).toISOString(),
+      weight: parseFloat(newWeightEntry.weight),
+      feeling: newWeightEntry.feeling,
+    };
+
     try {
       const response = await fetch(`/api/users/${userId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(newWeightEntry),
+        body: JSON.stringify(entryToAdd),
       });
       if (response.ok) {
-        mutate(); // Re-fetch the user data to reflect the new entry
+        mutate();
         console.log("Entry successfully added!");
       } else {
         console.error("Failed to add entry. Response:", response);
