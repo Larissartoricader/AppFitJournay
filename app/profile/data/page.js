@@ -35,8 +35,8 @@ export default function WeightSubmition() {
   return (
     <DataPage>
       <BackButton />
-      {/* <h1>Insert Weight, {user.owner}</h1> */}
-      <WeightForm />
+      <h1>Insert Weight, {user.owner}</h1>
+      <WeightForm user={user} userId={userId} />
     </DataPage>
   );
 }
