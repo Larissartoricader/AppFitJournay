@@ -10,7 +10,6 @@ const StyledForm = styled.form`
   gap: 5px;
   padding: 10px;
   width: 50%;
-  margin: 10px;
 
   @media (max-width: 768px) {
     width: 90%;
@@ -96,13 +95,24 @@ const SubmitSpan1 = styled.span`
   transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
   z-index: 10;
 `;
-
 const EntryContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   gap: 35px;
-
   border-radius: 10px;
+  padding-inline: 30px;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (max-width: 512px) {
+    padding-inline: 20px;
+  }
 `;
 
 const EntryList = styled.div`
@@ -115,10 +125,6 @@ const EntryList = styled.div`
 const EntryBox = styled.div`
   display: flex;
 `;
-
-// const EntryDeleteBox = styled.div`
-//   border: solid 3px red;
-// `;
 
 const EntryDeleteButton = styled.button`
   background-color: white;
@@ -267,7 +273,7 @@ export default function WeightForm({ user, userId }) {
         <p>All Weight Data inserted by you</p>
         <EntryContainer>
           {entriesHistory.map((entry, index) => (
-            <EntryList key={index}>
+            <EntryList key={entry.id}>
               <EntryDeleteButton>❌</EntryDeleteButton>
               <EntryBox>
                 Weight: {entry.weight}
