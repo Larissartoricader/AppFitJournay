@@ -10,7 +10,7 @@ const DataPage = styled.div`
   position: relativ;
 `;
 
-export default function WeightSubmition() {
+export default function WeightSubmition({}) {
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
 

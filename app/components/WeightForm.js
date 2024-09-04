@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
@@ -169,6 +170,15 @@ const EntryEditionButton = styled.button`
     border-radius: 50%;
   }
 `;
+const EditButton = styled.button`
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+`;
 
 export default function WeightForm({ user, userId }) {
   const { mutate } = useSWR(`/api/users/${userId}`);
@@ -272,9 +282,10 @@ export default function WeightForm({ user, userId }) {
         <h3>Entries History</h3>
         <p>All Weight Data inserted by you</p>
         <EntryContainer>
-          {entriesHistory.map((entry, index) => (
+          {entriesHistory.map((entry) => (
             <EntryList key={entry.id}>
               <EntryDeleteButton>❌</EntryDeleteButton>
+
               <EntryBox>
                 Weight: {entry.weight}
                 <EntryEdition>
