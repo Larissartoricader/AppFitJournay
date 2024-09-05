@@ -220,6 +220,23 @@ export default function WeightForm({ user, userId }) {
     }
   }
 
+  async function handleDelete(entryId) {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: entryId }),
+    });
+    if (response.ok) {
+      console.log("Entry deleted successfully!");
+      window.location.reload();
+    } else {
+      const error = await response.json();
+      console.error("Failed to delete entry:", error);
+    }
+  }
+
   return (
     <>
       <h2>Form</h2>
@@ -284,7 +301,9 @@ export default function WeightForm({ user, userId }) {
         <EntryContainer>
           {entriesHistory.map((entry) => (
             <EntryList key={entry.id}>
-              <EntryDeleteButton>❌</EntryDeleteButton>
+              <EntryDeleteButton onClick={() => handleDelete(entry.id)}>
+                ❌
+              </EntryDeleteButton>
 
               <EntryBox>
                 Weight: {entry.weight}
