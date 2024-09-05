@@ -117,14 +117,23 @@ const EntryContainer = styled.div`
 `;
 
 const EntryList = styled.div`
+  background: linear-gradient(115deg, #e0e0e0, #ffffff);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
+    -5px -5px 15px rgba(255, 255, 255, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+
   border: solid 2px white;
   border-radius: 10px;
   padding: 30px 10px;
   position: relative;
+  &:hover {
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.5);
 `;
 
 const EntryBox = styled.div`
   display: flex;
+  color: black;
+  font-weight: bold;
 `;
 
 const EntryDeleteButton = styled.button`
@@ -152,7 +161,6 @@ const EntryDeleteButton = styled.button`
 const EntryEdition = styled.span`
   display: flex;
   gap: 100px;
-  border: solid 1px white;
 `;
 
 const EntryEditionButton = styled.button`
@@ -244,7 +252,7 @@ export default function WeightForm({ user, userId }) {
         <label htmlFor="date">Date</label>
         <StyledInput type="date" id="date" name="date" />
         <label htmlFor="weight">Weight</label>
-        <StyledInput type="number" id="weight" name="weight" />
+        <StyledInput type="number" id="weight" name="weight" step="any" />
         <p>Felling</p>
         <FeelingsBox>
           <Feelling>
@@ -312,7 +320,7 @@ export default function WeightForm({ user, userId }) {
                 </EntryEdition>
               </EntryBox>
               <EntryBox>
-                Date: {entry.date}
+                Date: {entry.date.split("T")[0]}
                 <EntryEdition>
                   <EntryEditionButton>✏️</EntryEditionButton>
                 </EntryEdition>
