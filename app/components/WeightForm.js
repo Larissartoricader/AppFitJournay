@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
+import Confetti from "./Confetti";
 
 const StyledForm = styled.form`
   border: solid 2px white;
@@ -189,6 +190,8 @@ const EditButton = styled.button`
 `;
 
 export default function WeightForm({ user, userId }) {
+  const [isVisible, setIsVisible] = useState(false);
+
   const { mutate } = useSWR(`/api/users/${userId}`);
   console.log(userId);
   console.log(user);
@@ -217,9 +220,13 @@ export default function WeightForm({ user, userId }) {
         },
         body: JSON.stringify(entryToAdd),
       });
+
       if (response.ok) {
-        mutate();
         console.log("Entry successfully added!");
+        console.log("CONFETIIII");
+        setIsVisible(true);
+        setTimeout(() => setIsVisible(false), 3000);
+        mutate();
       } else {
         console.error("Failed to add entry. Response:", response);
       }
@@ -248,6 +255,7 @@ export default function WeightForm({ user, userId }) {
   return (
     <>
       <h2>Form</h2>
+      {isVisible && <Confetti />}
       <StyledForm onSubmit={handleSubmit}>
         <label htmlFor="date">Date</label>
         <StyledInput type="date" id="date" name="date" />
@@ -298,6 +306,7 @@ export default function WeightForm({ user, userId }) {
             <label htmlFor="frustrated">🙄 Frustrated</label>
           </Feelling>
         </FeelingsBox>
+
         <SubmitButton>
           <SubmitSpan1 type="submit">Submit</SubmitSpan1>
           <SubmitSpan2>Done</SubmitSpan2>
