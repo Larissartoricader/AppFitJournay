@@ -80,3 +80,55 @@ export async function POST(req, { params }) {
     });
   }
 }
+
+//DELETE
+
+export async function DELETE(req, { params }) {
+  await dbConnect();
+
+  const userId = params.id;
+
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "User ID is required" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const { id } = await req.json();
+
+    const entryIndex = user.entries.findIndex((entry) => entry.id === id);
+
+    if (entryIndex === -1) {
+      return new Response(JSON.stringify({ error: "Entry not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    user.entries.splice(entryIndex, 1);
+
+    await user.save();
+
+    return new Response(JSON.stringify(user), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error deleting entry:", error);
+    return new Response(JSON.stringify({ error: "Failed to delete entry" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}

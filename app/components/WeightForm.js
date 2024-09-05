@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
@@ -10,7 +11,6 @@ const StyledForm = styled.form`
   gap: 5px;
   padding: 10px;
   width: 50%;
-  margin: 10px;
 
   @media (max-width: 768px) {
     width: 90%;
@@ -96,11 +96,105 @@ const SubmitSpan1 = styled.span`
   transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
   z-index: 10;
 `;
+const EntryContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 35px;
+  border-radius: 10px;
+  padding-inline: 30px;
+
+  @media screen and (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media screen and (max-width: 512px) {
+    padding-inline: 20px;
+  }
+`;
+
+const EntryList = styled.div`
+  background: linear-gradient(115deg, #e0e0e0, #ffffff);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1),
+    -5px -5px 15px rgba(255, 255, 255, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+
+  border: solid 2px white;
+  border-radius: 10px;
+  padding: 30px 10px;
+  position: relative;
+  &:hover {
+    box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.5);
+`;
+
+const EntryBox = styled.div`
+  display: flex;
+  color: black;
+  font-weight: bold;
+`;
+
+const EntryDeleteButton = styled.button`
+  background-color: white;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  right: -13px;
+  top: -13px;
+  transition: transform 900ms cubic-bezier(0.48, 0, 0.12, 1),
+    box-shadow 900ms cubic-bezier(0.48, 0, 0.12, 1);
+  &:hover {
+    transform: scale(1.3);
+    box-shadow: 0px 8px 12px rgba(0, 0, 0, 5);
+  }
+`;
+
+const EntryEdition = styled.span`
+  display: flex;
+  gap: 100px;
+`;
+
+const EntryEditionButton = styled.button`
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  right: 0px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    background-color: #ffb467;
+    border-radius: 50%;
+  }
+`;
+const EditButton = styled.button`
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+`;
 
 export default function WeightForm({ user, userId }) {
   const { mutate } = useSWR(`/api/users/${userId}`);
   console.log(userId);
   console.log(user);
+
+  const entriesHistory = user.entries;
+  console.log(entriesHistory);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -134,6 +228,23 @@ export default function WeightForm({ user, userId }) {
     }
   }
 
+  async function handleDelete(entryId) {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: entryId }),
+    });
+    if (response.ok) {
+      console.log("Entry deleted successfully!");
+      window.location.reload();
+    } else {
+      const error = await response.json();
+      console.error("Failed to delete entry:", error);
+    }
+  }
+
   return (
     <>
       <h2>Form</h2>
@@ -141,7 +252,7 @@ export default function WeightForm({ user, userId }) {
         <label htmlFor="date">Date</label>
         <StyledInput type="date" id="date" name="date" />
         <label htmlFor="weight">Weight</label>
-        <StyledInput type="number" id="weight" name="weight" />
+        <StyledInput type="number" id="weight" name="weight" step="any" />
         <p>Felling</p>
         <FeelingsBox>
           <Feelling>
@@ -192,6 +303,38 @@ export default function WeightForm({ user, userId }) {
           <SubmitSpan2>Done</SubmitSpan2>
         </SubmitButton>
       </StyledForm>
+      <div>
+        <h3>Entries History</h3>
+        <p>All Weight Data inserted by you</p>
+        <EntryContainer>
+          {entriesHistory.map((entry) => (
+            <EntryList key={entry.id}>
+              <EntryDeleteButton onClick={() => handleDelete(entry.id)}>
+                ❌
+              </EntryDeleteButton>
+
+              <EntryBox>
+                Weight: {entry.weight}
+                <EntryEdition>
+                  <EntryEditionButton>✏️</EntryEditionButton>
+                </EntryEdition>
+              </EntryBox>
+              <EntryBox>
+                Date: {entry.date.split("T")[0]}
+                <EntryEdition>
+                  <EntryEditionButton>✏️</EntryEditionButton>
+                </EntryEdition>
+              </EntryBox>
+              <EntryBox>
+                You felt: {entry.feeling}
+                <EntryEdition>
+                  <EntryEditionButton>✏️</EntryEditionButton>
+                </EntryEdition>
+              </EntryBox>
+            </EntryList>
+          ))}
+        </EntryContainer>
+      </div>
     </>
   );
 }
