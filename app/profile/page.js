@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 import BackButton from "../components/BackButton";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 
@@ -150,6 +150,7 @@ const StyledLink = styled(Link)`
 `;
 
 export default function Profile() {
+  const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
   const handleMouseEnter = (index) => setHoveredIndex(index);
@@ -165,6 +166,43 @@ export default function Profile() {
   } = useSWR(userId ? `/api/users/${userId}` : null);
 
   console.log(userId);
+
+  async function handleDeleteProfile() {
+    if (!user || !user._id) {
+      console.error("User ID is not defined");
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/users/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: user._id }),
+      });
+
+      if (response.ok) {
+        console.log("Profile deleted successfully!");
+        router.push("/");
+      } else {
+        let errorMessage;
+        try {
+          const error = await response.json();
+          errorMessage = error.message || "Failed to delete entry";
+        } catch (jsonError) {
+          errorMessage =
+            "Failed to delete profile and couldn't parse error response";
+        }
+        console.error(errorMessage);
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while trying to delete the profile:",
+        error
+      );
+    }
+  }
 
   if (isLoading) {
     return <h2>Loading user data...</h2>;
@@ -268,6 +306,7 @@ export default function Profile() {
           ))}
         </Cols>
       </Wrapper>
+      <button onClick={handleDeleteProfile}>Delete Profile</button>
     </ProfilePageStyled>
   );
 }
