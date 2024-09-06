@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
-import Confetti from "./Confetti";
+import ModalWeightEdit from "./ModalWeightEdit";
+import { Modal } from "@mui/material";
 
 const StyledForm = styled.form`
   border: solid 2px white;
@@ -159,39 +159,7 @@ const EntryDeleteButton = styled.button`
   }
 `;
 
-const EntryEdition = styled.span`
-  display: flex;
-  gap: 100px;
-`;
-
-const EntryEditionButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  position: absolute;
-  right: 0px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:hover {
-    background-color: #ffb467;
-    border-radius: 50%;
-  }
-`;
-const EditButton = styled.button`
-  background-color: #0070f3;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
 export default function WeightForm({ user, userId }) {
-  const [isVisible, setIsVisible] = useState(false);
-
   const { mutate } = useSWR(`/api/users/${userId}`);
   console.log(userId);
   console.log(user);
@@ -222,11 +190,8 @@ export default function WeightForm({ user, userId }) {
       });
 
       if (response.ok) {
-        console.log("Entry successfully added!");
-        console.log("CONFETIIII");
-        setIsVisible(true);
-        setTimeout(() => setIsVisible(false), 3000);
         mutate();
+        console.log("Entry successfully added!");
       } else {
         console.error("Failed to add entry. Response:", response);
       }
@@ -255,7 +220,7 @@ export default function WeightForm({ user, userId }) {
   return (
     <>
       <h2>Form</h2>
-      {isVisible && <Confetti />}
+
       <StyledForm onSubmit={handleSubmit}>
         <label htmlFor="date">Date</label>
         <StyledInput type="date" id="date" name="date" />
@@ -324,21 +289,28 @@ export default function WeightForm({ user, userId }) {
 
               <EntryBox>
                 Weight: {entry.weight}
-                <EntryEdition>
-                  <EntryEditionButton>✏️</EntryEditionButton>
-                </EntryEdition>
+                <ModalWeightEdit
+                  nameOfInput={"weight"}
+                  valueToBeChanged={entry.weight}
+                  inputType={Number}
+                />
               </EntryBox>
+
               <EntryBox>
-                Date: {entry.date.split("T")[0]}
-                <EntryEdition>
-                  <EntryEditionButton>✏️</EntryEditionButton>
-                </EntryEdition>
+                date: {entry.date.split("T")[0]}
+                <ModalWeightEdit
+                  nameOfInput={"date"}
+                  valueToBeChanged={entry.date.split("T")[0]}
+                  inputType={"date"}
+                />
               </EntryBox>
               <EntryBox>
                 You felt: {entry.feeling}
-                <EntryEdition>
-                  <EntryEditionButton>✏️</EntryEditionButton>
-                </EntryEdition>
+                <ModalWeightEdit
+                  nameOfInput={"feeling"}
+                  valueToBeChanged={entry.feeling}
+                  inputType={"radio"}
+                />
               </EntryBox>
             </EntryList>
           ))}
