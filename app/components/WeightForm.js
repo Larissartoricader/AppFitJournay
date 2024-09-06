@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
-import ModalWeightEdit from "./ModalWeightEdit";
+import ModalWeightEdit from "./ModalEditForm";
 import { Modal } from "@mui/material";
+import ModalEditForm from "./ModalEditForm";
 
 const StyledForm = styled.form`
   border: solid 2px white;
@@ -161,11 +162,8 @@ const EntryDeleteButton = styled.button`
 
 export default function WeightForm({ user, userId }) {
   const { mutate } = useSWR(`/api/users/${userId}`);
-  console.log(userId);
-  console.log(user);
 
   const entriesHistory = user.entries;
-  console.log(entriesHistory);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -289,27 +287,33 @@ export default function WeightForm({ user, userId }) {
 
               <EntryBox>
                 Weight: {entry.weight}
-                <ModalWeightEdit
+                <ModalEditForm
                   nameOfInput={"weight"}
                   valueToBeChanged={entry.weight}
-                  inputType={Number}
+                  inputType={"Number"}
+                  userId={userId}
+                  entryId={entry.id}
                 />
               </EntryBox>
 
               <EntryBox>
                 date: {entry.date.split("T")[0]}
-                <ModalWeightEdit
+                <ModalEditForm
                   nameOfInput={"date"}
                   valueToBeChanged={entry.date.split("T")[0]}
                   inputType={"date"}
+                  userId={userId}
+                  entryId={entry.id}
                 />
               </EntryBox>
               <EntryBox>
                 You felt: {entry.feeling}
-                <ModalWeightEdit
+                <ModalEditForm
                   nameOfInput={"feeling"}
                   valueToBeChanged={entry.feeling}
                   inputType={"radio"}
+                  userId={userId}
+                  entryId={entry.id}
                 />
               </EntryBox>
             </EntryList>

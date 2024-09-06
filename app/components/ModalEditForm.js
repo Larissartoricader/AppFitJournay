@@ -8,10 +8,12 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 
-export default function ModalWeightEdit({
+export default function ModalEditForm({
   nameOfInput,
   valueToBeChanged,
   inputType,
+  userId,
+  entryId,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -21,6 +23,45 @@ export default function ModalWeightEdit({
   const handleClickClose = () => {
     setOpen(false);
   };
+
+  async function handleEditSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const updatedEntryValue = Object.fromEntries(formData);
+    console.log(updatedEntryValue);
+
+    // const { nameOfInput } = updatedEntryValue;
+
+    if (!entryId) {
+      console.error("Entry ID is missing.");
+      return;
+    }
+
+    const updatedData = {
+      [nameOfInput]: updatedEntryValue[nameOfInput],
+    };
+
+    try {
+      const response = await fetch(`/api/users/${userId}`, {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ entryId, updatedData }),
+      });
+
+      if (response.ok) {
+        console.log(`The ${nameOfInput} was successfully updated`);
+        window.location.reload();
+      } else {
+        const error = await response.json();
+        console.error("Failed to update entry:", error);
+      }
+    } catch (error) {
+      console.error("An error occurred while updating the entry:", error);
+    }
+  }
   return (
     <>
       <Button onClick={handleClickOpen}>✏️</Button>
@@ -30,11 +71,17 @@ export default function ModalWeightEdit({
           <DialogContentText>
             Your inserted {nameOfInput} is {valueToBeChanged}
           </DialogContentText>
-          <form>
+          <form onSubmit={handleEditSubmit}>
             {nameOfInput === "weight" || nameOfInput === "date" ? (
               <>
-                <label>Change</label>
-                <input type={inputType} defaultValue={valueToBeChanged} />
+                <label htmlFor={nameOfInput}>Change</label>
+                <input
+                  type={inputType}
+                  defaultValue={valueToBeChanged}
+                  name={nameOfInput}
+                  id={nameOfInput}
+                  step="any"
+                />
               </>
             ) : (
               <>
@@ -96,11 +143,13 @@ export default function ModalWeightEdit({
                 </div>
               </>
             )}
+            <DialogActions>
+              <Button onClick={handleClickClose} type="submit">
+                Save & Close
+              </Button>
+            </DialogActions>
           </form>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClickClose}>Save & Close</Button>
-        </DialogActions>
       </Dialog>
     </>
   );

@@ -132,3 +132,57 @@ export async function DELETE(req, { params }) {
     });
   }
 }
+
+//UPDATE PUT
+
+export async function PUT(req, { params }) {
+  await dbConnect();
+
+  const userId = params.id;
+
+  if (!userId) {
+    return new Response(JSON.stringify({ error: "User ID is required" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const { entryId, updatedData } = await req.json();
+
+    const entryIndex = user.entries.findIndex(
+      (entry) => entry.id.toString() === entryId
+    );
+
+    if (entryIndex === -1) {
+      return new Response(JSON.stringify({ error: "Entry not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    Object.assign(user.entries[entryIndex], updatedData);
+
+    await user.save();
+
+    return new Response(JSON.stringify(user), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("Error deleting entry:", error);
+    return new Response(JSON.stringify({ error: "Failed to delete entry" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
