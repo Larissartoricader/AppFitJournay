@@ -1,7 +1,9 @@
-import { useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
+import ModalWeightEdit from "./ModalEditForm";
+import { Modal } from "@mui/material";
+import ModalEditForm from "./ModalEditForm";
 
 const StyledForm = styled.form`
   border: solid 2px white;
@@ -158,43 +160,10 @@ const EntryDeleteButton = styled.button`
   }
 `;
 
-const EntryEdition = styled.span`
-  display: flex;
-  gap: 100px;
-`;
-
-const EntryEditionButton = styled.button`
-  background-color: transparent;
-  cursor: pointer;
-  position: absolute;
-  right: 0px;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:hover {
-    background-color: #ffb467;
-    border-radius: 50%;
-  }
-`;
-const EditButton = styled.button`
-  background-color: #0070f3;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-`;
-
 export default function WeightForm({ user, userId }) {
   const { mutate } = useSWR(`/api/users/${userId}`);
-  console.log(userId);
-  console.log(user);
 
   const entriesHistory = user.entries;
-  console.log(entriesHistory);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -217,6 +186,7 @@ export default function WeightForm({ user, userId }) {
         },
         body: JSON.stringify(entryToAdd),
       });
+
       if (response.ok) {
         mutate();
         console.log("Entry successfully added!");
@@ -248,6 +218,7 @@ export default function WeightForm({ user, userId }) {
   return (
     <>
       <h2>Form</h2>
+
       <StyledForm onSubmit={handleSubmit}>
         <label htmlFor="date">Date</label>
         <StyledInput type="date" id="date" name="date" />
@@ -298,6 +269,7 @@ export default function WeightForm({ user, userId }) {
             <label htmlFor="frustrated">🙄 Frustrated</label>
           </Feelling>
         </FeelingsBox>
+
         <SubmitButton>
           <SubmitSpan1 type="submit">Submit</SubmitSpan1>
           <SubmitSpan2>Done</SubmitSpan2>
@@ -315,21 +287,34 @@ export default function WeightForm({ user, userId }) {
 
               <EntryBox>
                 Weight: {entry.weight}
-                <EntryEdition>
-                  <EntryEditionButton>✏️</EntryEditionButton>
-                </EntryEdition>
+                <ModalEditForm
+                  nameOfInput={"weight"}
+                  valueToBeChanged={entry.weight}
+                  inputType={"Number"}
+                  userId={userId}
+                  entryId={entry.id}
+                />
               </EntryBox>
+
               <EntryBox>
-                Date: {entry.date.split("T")[0]}
-                <EntryEdition>
-                  <EntryEditionButton>✏️</EntryEditionButton>
-                </EntryEdition>
+                date: {entry.date.split("T")[0]}
+                <ModalEditForm
+                  nameOfInput={"date"}
+                  valueToBeChanged={entry.date.split("T")[0]}
+                  inputType={"date"}
+                  userId={userId}
+                  entryId={entry.id}
+                />
               </EntryBox>
               <EntryBox>
                 You felt: {entry.feeling}
-                <EntryEdition>
-                  <EntryEditionButton>✏️</EntryEditionButton>
-                </EntryEdition>
+                <ModalEditForm
+                  nameOfInput={"feeling"}
+                  valueToBeChanged={entry.feeling}
+                  inputType={"radio"}
+                  userId={userId}
+                  entryId={entry.id}
+                />
               </EntryBox>
             </EntryList>
           ))}
