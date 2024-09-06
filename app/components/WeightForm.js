@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import useSWR from "swr";
 import { uid } from "uid";
-import ModalWeightEdit from "./ModalEditForm";
-import { Modal } from "@mui/material";
+
 import ModalEditForm from "./ModalEditForm";
 
 const StyledForm = styled.form`

@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import Login from "./Login";
 import styled from "styled-components";
+import useSWR from "swr";
 
 const Form = styled.form`
   display: flex;
@@ -12,6 +13,46 @@ const Form = styled.form`
 `;
 
 export default function CreateProfile() {
+  const { mutate } = useSWR(`/api/users/`);
+
+  async function handleProfileSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const newProfile = Object.fromEntries(formData);
+    console.log(newProfile);
+
+    const profileToAdd = {
+      owner: newProfile.owner,
+      email: [newProfile.email],
+      entries: [],
+      projection: parseFloat(newProfile.projection),
+      impressions: [],
+    };
+
+    console.log(profileToAdd);
+
+    try {
+      const response = await fetch(`/api/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(profileToAdd),
+      });
+
+      if (response.ok) {
+        mutate();
+        console.log("New Profile Successfully added!");
+      } else {
+        console.error("Failed to add new profile. Response:", response);
+      }
+    } catch (error) {
+      console.error(
+        "An error occurred while submitting the profile-form:",
+        error
+      );
+    }
+  }
   const { data: session } = useSession();
   return (
     <>
@@ -23,7 +64,7 @@ export default function CreateProfile() {
       </p>
       <h3>Your Profile</h3>
       <p>Name and E-mail can not be changed</p>
-      <Form>
+      <Form onSubmit={handleProfileSubmit}>
         <div>
           <label htmlFor="owner">Your Name:</label>
           <input
@@ -48,6 +89,7 @@ export default function CreateProfile() {
           <label>Your Goal</label>
           <input type="number" id="projection" name="projection" step="any" />
         </div>
+        <button type="submit">Create Profile</button>
       </Form>
       <Login />
     </>
