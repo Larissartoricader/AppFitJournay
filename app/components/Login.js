@@ -2,6 +2,11 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import styled, { keyframes } from "styled-components";
+const borderAnimation = keyframes`
+  to {
+    transform: translateX(-25%);
+  }
+`;
 
 const LoginBox = styled.div`
   background: #141315;
@@ -14,12 +19,6 @@ const LoginBox = styled.div`
   gap: 10px;
   @media screen and (max-width: 32rem) {
     width: 90vw;
-  }
-`;
-
-const borderAnimation = keyframes`
-  to {
-    transform: translateX(-25%);
   }
 `;
 
