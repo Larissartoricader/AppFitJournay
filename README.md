@@ -4,13 +4,15 @@
 
 - **JavaScript**
 - **React**
-- **Next.js 14**
+
 
 ## Libraries and Tools
 
+- **Next.js 14**
 - **NextAuth**: Implemented for authentication with GitHub and Google, along with credential management for testing purposes.
 - **React Chart.js**: Utilized for dynamic and interactive charting.
 - **React Spring**: An animation library used to add fluid animations and transitions to the user interface.
+- **Material UI (MUI)**: Provides ready-to-use components for building a modern, responsive UI.
 
 ## Backend
 
@@ -24,7 +26,7 @@ FitJourney is deployed on **Vercel**, ensuring high availability and performance
 
 Feel free to explore FitJourney using the following credentials:
 
-- **Username**: test
-- **Email**: test@test.com
+- **Username**: `test`
+- **Email**: `test@test.com`
 
 I welcome you to experience the features and functionalities of FitJourney.
