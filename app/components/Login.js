@@ -2,23 +2,23 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import styled, { keyframes } from "styled-components";
-const borderAnimation = keyframes`
-  to {
-    transform: translateX(-25%);
-  }
-`;
 
 const LoginBox = styled.div`
-  background: #141315;
-  border-radius: 20px;
-  height: 20vh;
-  width: 30vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  @media screen and (max-width: 32rem) {
+  justify-content: center;
+  background: #141315;
+  border-radius: 20px;
+  height: 20vh;
+  width: 40vw;
+  @media screen and (max-width: 780px) {
     width: 90vw;
+  }
+`;
+const borderAnimation = keyframes`
+  to {
+    transform: translateX(-25%);
   }
 `;
 
@@ -79,6 +79,10 @@ const SignInSpan = styled.span`
   height: 100%;
   text-align: center;
 `;
+const LoginText = styled.p`
+  text-align: center;
+  margin-inline: 10px;
+`;
 
 export default function Login() {
   const { data: session } = useSession();
@@ -86,13 +90,12 @@ export default function Login() {
   if (session) {
     return (
       <LoginBox>
-        <div>
-          <p>Hey {session.user.name},</p>
-          <p>
-            Your are signed in with:&nbsp;
-            {session.user.email}
-          </p>
-        </div>
+        <LoginText>
+          Hey {session.user.name.split(" ", 1)[0]}, you are signed in
+          with:&nbsp;
+          {session.user.email}. If you wish to log out:
+        </LoginText>
+
         <ButtonSignIn onClick={() => signOut()}>
           <SignInSpan>Sign out</SignInSpan>
         </ButtonSignIn>
@@ -102,7 +105,7 @@ export default function Login() {
 
   return (
     <LoginBox>
-      <p>Not signed in</p>
+      <LoginText>Not signed in</LoginText>
       <ButtonSignIn onClick={() => signIn()}>
         <SignInSpan>Sing in</SignInSpan>
       </ButtonSignIn>

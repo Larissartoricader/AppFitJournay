@@ -19,7 +19,6 @@ const StyledProfileLink = styled(Link)`
 const LoginBoxLogOut = styled.div`
   position: absolute;
   bottom: 10px;
-  left: 5px;
 `;
 
 export default function LogOutPage({ currentUserId, currentUser }) {
@@ -32,10 +31,11 @@ export default function LogOutPage({ currentUserId, currentUser }) {
         </StyledProfileLink>
 
         <h2>Do not forget to update your Jornay</h2>
+
+        <LoginBoxLogOut>
+          <Login />
+        </LoginBoxLogOut>
       </StyledLogOutPage>
-      <LoginBoxLogOut>
-        <Login />
-      </LoginBoxLogOut>
     </>
   );
 }
