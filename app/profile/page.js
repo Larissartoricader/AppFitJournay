@@ -149,6 +149,16 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const DeleteProfileButton = styled.button`
+  padding: 10px;
+  background-color: #e62c2c;
+  color: white;
+  border-radius: 10px;
+  position: aboslute;
+  bottom: 100px;
+  left: 10px;
+`;
+
 export default function Profile() {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -306,7 +316,9 @@ export default function Profile() {
           ))}
         </Cols>
       </Wrapper>
-      <button onClick={handleDeleteProfile}>Delete Profile</button>
+      <DeleteProfileButton onClick={handleDeleteProfile}>
+        Delete Profile
+      </DeleteProfileButton>
     </ProfilePageStyled>
   );
 }
