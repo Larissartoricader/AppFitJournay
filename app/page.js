@@ -10,8 +10,6 @@ import LogOutPage from "./components/LogOutPage";
 import CreateProfile from "./components/CreateProfile";
 import FitJournayHeading from "./components/FitJournayHeading";
 
-const StyledHomePage = styled.div``;
-
 export default function Home() {
   const { data: session, status } = useSession();
   const { data: users, isLoading, error } = useSWR("/api/users");
@@ -45,7 +43,7 @@ export default function Home() {
   // console.log("Current User ID:", currentUserId);
 
   return (
-    <StyledHomePage>
+    <>
       <FitJournayHeading />
       {!session ? (
         <LogInPage />
@@ -54,6 +52,6 @@ export default function Home() {
       ) : (
         <CreateProfile />
       )}
-    </StyledHomePage>
+    </>
   );
 }

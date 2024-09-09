@@ -3,19 +3,36 @@ import Login from "./Login";
 import { a, useSpring, useSprings } from "@react-spring/web";
 import { useState } from "react";
 
-const StyledHomePageBody = styled.div`
+const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  justify-content: center;
   align-items: center;
-  margin-inline: 18px;
+`;
+
+const StyledHomePageBody = styled.div`
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+
+  @media screen and (max-width: 1424px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 250px;
+    padding-inline: 150px;
+  }
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
-  height: 30vh;
-
   justify-content: center;
+  align-items: start;
+  position: relative;
 `;
 
 const AnimatedDiv = styled(a.div)`
@@ -83,85 +100,89 @@ export default function LogInPage() {
   ];
 
   return (
-    <StyledHomePageBody>
-      <p>
-        Welcome to Your Fit Journey! To access all features and start tracking
-        your progress, log in completely free.
-      </p>
-      <Login />
-      <StyledH2>Still not sure about Fit Journey?</StyledH2>
-      <p>Check out the features and see how Fit Journey can assist you:</p>
-      {flipped.map((flip, index) => (
-        <Container key={index} onClick={() => toggleFlip(index)}>
-          <AnimatedDiv
-            className="back"
-            style={{
-              opacity: springs[index].opacity.to((o) => 1 - o),
-              transform: springs[index].transform,
-            }}
-          >
-            {index === 0 && (
-              <h2>
-                {" "}
-                Get personalized plans and track your progress every step of the
-                way.
-              </h2>
-            )}
-            {index === 1 && (
-              <h2>
-                No matter where or when, quickly update your weight on a daily
-                basis.{" "}
-              </h2>
-            )}
-            {index === 2 && (
-              <h2>
-                Find out how long it will take you to reach your goal based on
-                your journey
-              </h2>
-            )}
-            {index === 3 && (
-              <h2>
-                Share your high and low points and add your emotions and
-                feelings to your journey.{" "}
-              </h2>
-            )}
-          </AnimatedDiv>
-          <AnimatedDiv
-            className="front"
-            style={{
-              opacity: springs[index].opacity,
-              transform: springs[index].transform,
-              rotateX: "180deg",
-              backgroundImage: backgroundImages[index],
-            }}
-          >
-            {index === 0 && (
-              <>
+    <>
+      <LoginContainer>
+        <p>
+          Welcome to Your Fit Journey! To access all features and start tracking
+          your progress, log in completely free.
+        </p>
+        <Login />
+        <StyledH2>Still not sure about Fit Journey?</StyledH2>
+        <p>Check out the features and see how Fit Journey can assist you:</p>
+      </LoginContainer>
+      <StyledHomePageBody>
+        {flipped.map((flip, index) => (
+          <Container key={index} onClick={() => toggleFlip(index)}>
+            <AnimatedDiv
+              className="back"
+              style={{
+                opacity: springs[index].opacity.to((o) => 1 - o),
+                transform: springs[index].transform,
+              }}
+            >
+              {index === 0 && (
+                <h2>
+                  {" "}
+                  Get personalized plans and track your progress every step of
+                  the way.
+                </h2>
+              )}
+              {index === 1 && (
+                <h2>
+                  No matter where or when, quickly update your weight on a daily
+                  basis.{" "}
+                </h2>
+              )}
+              {index === 2 && (
+                <h2>
+                  Find out how long it will take you to reach your goal based on
+                  your journey
+                </h2>
+              )}
+              {index === 3 && (
+                <h2>
+                  Share your high and low points and add your emotions and
+                  feelings to your journey.{" "}
+                </h2>
+              )}
+            </AnimatedDiv>
+            <AnimatedDiv
+              className="front"
+              style={{
+                opacity: springs[index].opacity,
+                transform: springs[index].transform,
+                rotateX: "180deg",
+                backgroundImage: backgroundImages[index],
+              }}
+            >
+              {index === 0 && (
+                <>
+                  <FilterDiv>
+                    <h2>Follow Your Path</h2>
+                  </FilterDiv>
+                </>
+              )}
+              {index === 1 && (
                 <FilterDiv>
-                  <h2>Follow Your Path</h2>
+                  <h2>Daily Update</h2>
                 </FilterDiv>
-              </>
-            )}
-            {index === 1 && (
-              <FilterDiv>
-                <h2>Daily Update</h2>
-              </FilterDiv>
-            )}
-            {index === 2 && (
-              <>
+              )}
+              {index === 2 && (
+                <>
+                  <FilterDiv>
+                    <h2>Metabolism Analysis</h2>
+                  </FilterDiv>
+                </>
+              )}
+              {index === 3 && (
                 <FilterDiv>
-                  <h2>Metabolism Analysis</h2>
+                  <h2>Your impressions matter</h2>
                 </FilterDiv>
-              </>
-            )}
-            {index === 3 && (
-              <FilterDiv>
-                <h2>Your impressions matter</h2>
-              </FilterDiv>
-            )}
-          </AnimatedDiv>
-        </Container>
-      ))}
-    </StyledHomePageBody>
+              )}
+            </AnimatedDiv>
+          </Container>
+        ))}
+      </StyledHomePageBody>
+    </>
   );
 }
