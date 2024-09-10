@@ -16,6 +16,7 @@ import { people } from "@/lib/dummydata";
 import BackButton from "@/app/components/BackButton";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import Link from "next/link";
 
 ChartJS.register(
   CategoryScale,
@@ -48,7 +49,7 @@ export default function Journay() {
   if (!user) {
     return <h2>No user data available.</h2>;
   }
-
+  const userEntries = user.entries;
   const chartData = {
     labels: user.entries.map((entry) => entry.date),
     datasets: [
@@ -79,6 +80,19 @@ export default function Journay() {
     <>
       <BackButton />
       <h1>Welcome to your Fit Journay, {user.owner}</h1>
+      {userEntries.length === 0 ? (
+        <h3>
+          You haven't yet shared any information with us so that we can set up
+          your journey.{" "}
+          <Link href={`/profile/data?userId=${userId}`}>Click here</Link> to
+          enter your information.
+        </h3>
+      ) : (
+        <h3>
+          Here's your journey based on all the data shared with us. Keep it up
+          to see your path step by step.{" "}
+        </h3>
+      )}
 
       <Line data={chartData} options={options} />
     </>

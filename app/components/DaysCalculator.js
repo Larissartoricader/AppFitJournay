@@ -1,4 +1,5 @@
 import { animated, useSpring } from "@react-spring/web";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
@@ -107,51 +108,128 @@ const FactNumber = styled.p`
   color: green;
 `;
 
-export default function DaysCalculator({ currentUser }) {
+const NoEntries = styled.p`
+  color: red;
+`;
+
+export default function DaysCalculator({ currentUser, userId }) {
   const [percentageAchieved, setPercentageAchieved] = useState(0);
 
+  // // USER Data Evaluation ONLY entries //
   useEffect(() => {
-    const calculatedPercentage = Math.round(
-      (currentUser.projection * 100) /
-        currentUser.entries[currentUser.entries.length - 1].weight
-    );
-    setPercentageAchieved(calculatedPercentage);
+    if (currentUser.entries && currentUser.entries.length > 0) {
+      const calculatedPercentage = Math.round(
+        (currentUser.projection * 100) /
+          currentUser.entries[currentUser.entries.length - 1].weight
+      );
+      setPercentageAchieved(calculatedPercentage);
+    }
   }, [currentUser]);
 
-  // USER Data Evaluation //
+  // USER Data Evaluation with or without entries //
   const userName = currentUser.owner.split(" ")[0];
   const numberOfEntries = currentUser.entries.length;
-  const oldestEntryRaw = new Date(currentUser.entries[0].date);
-  const oldestEntryDay = oldestEntryRaw.getUTCDate();
-  const oldestEntryMonth = new Intl.DateTimeFormat("en-US", {
-    month: "long",
-  }).format(oldestEntryRaw);
 
-  const oldestEntryYear = oldestEntryRaw.getUTCFullYear();
-  const oldestWeight = currentUser.entries[0].weight;
-  const latestEntryRaw = new Date(
-    currentUser.entries[currentUser.entries.length - 1].date
-  );
-  const latestEntryDay = latestEntryRaw.getUTCDate();
-  const latestEntryMonth = new Intl.DateTimeFormat("en-US", {
-    month: "long",
-  }).format(latestEntryRaw);
-  const latestEntryYear = latestEntryRaw.getUTCFullYear();
+  // USER Data Evaluation with or without entries //
 
-  const latestWeight =
-    currentUser.entries[currentUser.entries.length - 1].weight;
+  let oldestEntryRaw;
+  let oldestEntryDay;
+  let oldestEntryMonth;
+  let oldestEntryYear;
+  let oldestWeight;
+  let latestEntryRaw;
+  let latestEntryDay;
+  let latestEntryMonth;
+  let latestEntryYear;
+  let latestWeight;
+  let diffInMillicesonds;
+  let millisecondsPerDay;
+  let diffInDays;
+  let lackingPercentage;
+  let progessSpeed;
+  let daysToReachGoal;
 
-  const diffInMillicesonds = latestEntryRaw - oldestEntryRaw;
-  const millisecondsPerDay = 1000 * 60 * 60 * 24;
-  const diffInDays = Math.floor(diffInMillicesonds / millisecondsPerDay);
+  if (!currentUser.entries || currentUser.entries.length === 0) {
+    oldestEntryRaw = null;
+    oldestEntryDay = null;
+    oldestEntryMonth = null;
+    oldestEntryYear = null;
+    oldestWeight = null;
+    latestEntryRaw = null;
+    latestEntryDay = null;
+    latestEntryMonth = null;
+    latestEntryYear = null;
+    latestWeight = null;
+    diffInMillicesonds = null;
+    millisecondsPerDay = null;
+    diffInDays = null;
+    lackingPercentage = null;
+    progessSpeed = null;
+    daysToReachGoal = null;
+  } else {
+    oldestEntryRaw = new Date(currentUser.entries[0].date);
+    oldestEntryDay = oldestEntryRaw.getUTCDate();
+    oldestEntryMonth = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+    }).format(oldestEntryRaw);
+    oldestEntryYear = oldestEntryRaw.getUTCFullYear();
+    oldestWeight = currentUser.entries[0].weight;
 
-  const lackingPercentage = 100 - percentageAchieved;
+    latestEntryRaw = new Date(
+      currentUser.entries[currentUser.entries.length - 1].date
+    );
+    latestEntryDay = latestEntryRaw.getUTCDate();
+    latestEntryMonth = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+    }).format(latestEntryRaw);
+    latestEntryYear = latestEntryRaw.getUTCFullYear();
+    latestWeight = currentUser.entries[currentUser.entries.length - 1].weight;
 
-  const progessSpeed =
-    Math.round(latestWeight - currentUser.projection) / diffInDays;
-  const daysToReachGoal = Math.round(
-    (latestWeight - currentUser.projection) / progessSpeed
-  );
+    diffInMillicesonds = latestEntryRaw - oldestEntryRaw;
+    millisecondsPerDay = 1000 * 60 * 60 * 24;
+    diffInDays = Math.floor(diffInMillicesonds / millisecondsPerDay);
+
+    lackingPercentage = 100 - percentageAchieved;
+
+    // // USER Data Evaluation ONLY entries //
+
+    progessSpeed =
+      Math.round(latestWeight - currentUser.projection) / diffInDays;
+    daysToReachGoal = Math.round(
+      (latestWeight - currentUser.projection) / progessSpeed
+    );
+  }
+
+  //OLD
+  // const oldestEntryDay = oldestEntryRaw.getUTCDate();
+  // const oldestEntryMonth = new Intl.DateTimeFormat("en-US", {
+  //   month: "long",
+  // }).format(oldestEntryRaw);
+  // const oldestEntryYear = oldestEntryRaw.getUTCFullYear();
+  // const oldestWeight = currentUser.entries[0].weight;
+  // const latestEntryRaw = new Date(
+  //   currentUser.entries[currentUser.entries.length - 1].date
+  // );
+  // const latestEntryDay = latestEntryRaw.getUTCDate();
+  // const latestEntryMonth = new Intl.DateTimeFormat("en-US", {
+  //   month: "long",
+  // }).format(latestEntryRaw);
+  // const latestEntryYear = latestEntryRaw.getUTCFullYear();
+
+  // const latestWeight =
+  //   currentUser.entries[currentUser.entries.length - 1].weight;
+
+  // const diffInMillicesonds = latestEntryRaw - oldestEntryRaw;
+  // const millisecondsPerDay = 1000 * 60 * 60 * 24;
+  // const diffInDays = Math.floor(diffInMillicesonds / millisecondsPerDay);
+
+  // const lackingPercentage = 100 - percentageAchieved;
+
+  // const progessSpeed =
+  //   Math.round(latestWeight - currentUser.projection) / diffInDays;
+  // const daysToReachGoal = Math.round(
+  //   (latestWeight - currentUser.projection) / progessSpeed
+  // );
 
   const props = useSpring({
     to: { width: `${percentageAchieved}%` },
@@ -164,17 +242,33 @@ export default function DaysCalculator({ currentUser }) {
       <StyledProjectionText>
         You want to reach {currentUser.projection} kilos{" "}
       </StyledProjectionText>
-      <StyledProjectionText>You have already done it: </StyledProjectionText>
-      <ProgressBarContainer>
-        <ProgressBarFill style={props} />
-        <PercentageText>{percentageAchieved}%</PercentageText>
-      </ProgressBarContainer>
-      {{ percentageAchieved } > 80 ? (
-        <p>Keep Working</p>
+      {numberOfEntries === 0 ? (
+        <>
+          <NoEntries>No Entries available to show your progress</NoEntries>
+          <p>
+            You haven't yet shared any information with us so that we can set up
+            your journey.{" "}
+            <Link href={`/profile/data?userId=${userId}`}>Click here</Link> to
+            enter your information.
+          </p>
+        </>
       ) : (
-        <p>You are doing very well</p>
+        <>
+          <StyledProjectionText>
+            You have already done it:{" "}
+          </StyledProjectionText>
+          <ProgressBarContainer>
+            <ProgressBarFill style={props} />
+            <PercentageText>{percentageAchieved}%</PercentageText>
+          </ProgressBarContainer>
+          {{ percentageAchieved } > 80 ? (
+            <p>Keep Working</p>
+          ) : (
+            <p>You are doing very well</p>
+          )}
+          <h2>Check your Numbers & Facts</h2>
+        </>
       )}
-      <h2>Check your Numbers & Facts</h2>
       <CardBox>
         <FactContainer>
           <FactCard>
@@ -186,45 +280,91 @@ export default function DaysCalculator({ currentUser }) {
           <FactCard>
             <FactHeadline>Time</FactHeadline>
             <FactText>You fighting for</FactText>
-            <FactNumber>{diffInDays}</FactNumber>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <FactNumber>{diffInDays}</FactNumber>
+            )}
             <FactText>days</FactText>
           </FactCard>
           <FactCard>
             <FactHeadline>Start</FactHeadline>
             <FactText>You began your journay with</FactText>
-            <FactNumber>{oldestWeight}</FactNumber>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <FactNumber>{oldestWeight}</FactNumber>
+            )}
             <FactText>kilos</FactText>
           </FactCard>
           <FactCard>
             <FactHeadline>Current</FactHeadline>
             <FactText>You find yourself with</FactText>
-            <FactNumber>{latestWeight}</FactNumber>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <FactNumber>{latestWeight}</FactNumber>
+            )}
             <FactText>kilos</FactText>
           </FactCard>
           <FactCard>
             <FactHeadline>Remaining</FactHeadline>
             <FactText>You are </FactText>
-            <FactNumber>{lackingPercentage}%</FactNumber>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <FactNumber>{lackingPercentage}%</FactNumber>
+            )}
             <FactText>from your goal</FactText>
           </FactCard>
 
           <FactCard>
             <FactHeadline>Missing Path</FactHeadline>
             <FactText>You only have</FactText>
-            <FactNumber>{daysToReachGoal}</FactNumber>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <FactNumber>{daysToReachGoal}</FactNumber>
+            )}
             <FactText>days left to reach the end </FactText>
           </FactCard>
           <FactCard>
             <FactHeadline>First Day</FactHeadline>
-            <FactText>Thr first entry was on {oldestEntryDay}</FactText>
-            <FactNumber>{oldestEntryMonth}</FactNumber>
-            <FactText>of {oldestEntryYear}</FactText>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <>
+                <FactText>Thr first entry was on {oldestEntryDay}</FactText>
+                <FactNumber>{oldestEntryMonth}</FactNumber>
+                <FactText>of {oldestEntryYear}</FactText>
+              </>
+            )}
           </FactCard>
           <FactCard>
             <FactHeadline>Last Day</FactHeadline>
-            <FactText>Thr latest entry was on {latestEntryDay}</FactText>
-            <FactNumber>{latestEntryMonth}</FactNumber>
-            <FactText>of {latestEntryYear}</FactText>
+            {numberOfEntries === 0 ? (
+              <>
+                <NoEntries>No Entries available</NoEntries>
+              </>
+            ) : (
+              <>
+                <FactText>Thr latest entry was on {latestEntryDay}</FactText>
+                <FactNumber>{latestEntryMonth}</FactNumber>
+                <FactText>of {latestEntryYear}</FactText>
+              </>
+            )}
           </FactCard>
         </FactContainer>
       </CardBox>

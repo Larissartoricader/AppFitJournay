@@ -275,8 +275,17 @@ export default function WeightForm({ user, userId }) {
         </SubmitButton>
       </StyledForm>
       <div>
-        <h3>Entries History</h3>
-        <p>All Weight Data inserted by you</p>
+        {entriesHistory.length === 0 ? (
+          <h3>
+            You haven't entered any information yet. Enter your current weight,
+            the date and how you're feeling.
+          </h3>
+        ) : (
+          <>
+            <h3>Entries History</h3>
+            <p>All Weight Data inserted by you</p>
+          </>
+        )}
         <EntryContainer>
           {entriesHistory.map((entry) => (
             <EntryList key={entry.id}>
