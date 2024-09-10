@@ -277,8 +277,8 @@ export default function WeightForm({ user, userId }) {
       <div>
         {entriesHistory.length === 0 ? (
           <h3>
-            You haven't entered any information yet. Enter your current weight,
-            the date and how you're feeling.
+            You have not entered any information yet. Enter your current weight,
+            the date and how you are feeling.
           </h3>
         ) : (
           <>
