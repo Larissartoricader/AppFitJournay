@@ -243,8 +243,8 @@ export default function DaysCalculator({ currentUser, userId }) {
         <>
           <NoEntries>No Entries available to show your progress</NoEntries>
           <p>
-            You haven't yet shared any information with us so that we can set up
-            your journey.{" "}
+            You have not yet shared any information with us so that we can set
+            up your journey.{" "}
             <Link href={`/profile/data?userId=${userId}`}>Click here</Link> to
             enter your information.
           </p>
