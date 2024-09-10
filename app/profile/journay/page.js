@@ -82,14 +82,14 @@ export default function Journay() {
       <h1>Welcome to your Fit Journay, {user.owner}</h1>
       {userEntries.length === 0 ? (
         <h3>
-          You haven't yet shared any information with us so that we can set up
+          You have not yet shared any information with us so that we can set up
           your journey.{" "}
           <Link href={`/profile/data?userId=${userId}`}>Click here</Link> to
           enter your information.
         </h3>
       ) : (
         <h3>
-          Here's your journey based on all the data shared with us. Keep it up
+          Here is your journey based on all the data shared with us. Keep it up
           to see your path step by step.{" "}
         </h3>
       )}
