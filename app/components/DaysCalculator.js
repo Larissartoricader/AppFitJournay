@@ -186,7 +186,7 @@ export default function DaysCalculator({ currentUser, userId }) {
 
     diffInMillicesonds = latestEntryRaw - oldestEntryRaw;
     millisecondsPerDay = 1000 * 60 * 60 * 24;
-    diffInDays = Math.floor(diffInMillicesonds / millisecondsPerDay);
+    diffInDays = Math.round(diffInMillicesonds / millisecondsPerDay);
 
     lackingPercentage = (100 - percentageAchieved).toFixed(1);
 
@@ -194,8 +194,15 @@ export default function DaysCalculator({ currentUser, userId }) {
 
     progessSpeed =
       Math.round(latestWeight - currentUser.projection) / diffInDays;
-    daysToReachGoal = (latestWeight - currentUser.projection) / progessSpeed;
+    daysToReachGoal =
+      Math.round(latestWeight - currentUser.projection) / progessSpeed;
   }
+  console.log("Oldest Entry Date Raw " + oldestEntryRaw);
+  console.log("Lastest Entry Date Raw " + latestEntryRaw);
+  console.log("Latest Weight " + latestWeight);
+  console.log("Current Weight " + currentUser.projection);
+  console.log("Progress Speed " + progessSpeed);
+  console.log("Difference in Day " + diffInDays);
 
   //OLD
   // const oldestEntryDay = oldestEntryRaw.getUTCDate();
