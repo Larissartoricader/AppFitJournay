@@ -118,10 +118,9 @@ export default function DaysCalculator({ currentUser, userId }) {
   // // USER Data Evaluation ONLY entries //
   useEffect(() => {
     if (currentUser.entries && currentUser.entries.length > 0) {
-      const calculatedPercentage = Math.round(
+      const calculatedPercentage =
         (currentUser.projection * 100) /
-          currentUser.entries[currentUser.entries.length - 1].weight
-      );
+        currentUser.entries[currentUser.entries.length - 1].weight;
       setPercentageAchieved(calculatedPercentage);
     }
   }, [currentUser]);
@@ -189,15 +188,13 @@ export default function DaysCalculator({ currentUser, userId }) {
     millisecondsPerDay = 1000 * 60 * 60 * 24;
     diffInDays = Math.floor(diffInMillicesonds / millisecondsPerDay);
 
-    lackingPercentage = 100 - percentageAchieved;
+    lackingPercentage = (100 - percentageAchieved).toFixed(1);
 
-    // // USER Data Evaluation ONLY entries //
+    // // USER Data Evaluation ONLY with entries //
 
     progessSpeed =
       Math.round(latestWeight - currentUser.projection) / diffInDays;
-    daysToReachGoal = Math.round(
-      (latestWeight - currentUser.projection) / progessSpeed
-    );
+    daysToReachGoal = (latestWeight - currentUser.projection) / progessSpeed;
   }
 
   //OLD
@@ -259,7 +256,7 @@ export default function DaysCalculator({ currentUser, userId }) {
           </StyledProjectionText>
           <ProgressBarContainer>
             <ProgressBarFill style={props} />
-            <PercentageText>{percentageAchieved}%</PercentageText>
+            <PercentageText>{percentageAchieved.toFixed(1)}%</PercentageText>
           </ProgressBarContainer>
           {{ percentageAchieved } > 80 ? (
             <p>Keep Working</p>
