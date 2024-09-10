@@ -8,6 +8,7 @@ import BackButton from "../components/BackButton";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
+import ConfirmationDeleteModal from "../components/ConfirmationMessage";
 
 const ProfilePageStyled = styled.div`
   position: relative;
@@ -149,16 +150,6 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const DeleteProfileButton = styled.button`
-  padding: 10px;
-  background-color: #e62c2c;
-  color: white;
-  border-radius: 10px;
-  position: aboslute;
-  bottom: 100px;
-  left: 10px;
-`;
-
 export default function Profile() {
   const router = useRouter();
   const [hoveredIndex, setHoveredIndex] = useState(null);
@@ -229,9 +220,7 @@ export default function Profile() {
   return (
     <ProfilePageStyled>
       <BackButton />
-
       <ProfileNameHeading>Hello, {user.owner}</ProfileNameHeading>
-
       <Wrapper>
         <Cols>
           {[
@@ -316,9 +305,7 @@ export default function Profile() {
           ))}
         </Cols>
       </Wrapper>
-      <DeleteProfileButton onClick={handleDeleteProfile}>
-        Delete Profile
-      </DeleteProfileButton>
+      <ConfirmationDeleteModal handleDelete={handleDeleteProfile} />
     </ProfilePageStyled>
   );
 }
