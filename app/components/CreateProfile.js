@@ -100,6 +100,7 @@ export default function CreateProfile() {
 
       if (response.ok) {
         mutate();
+
         console.log("New Profile Successfully added!");
         window.location.reload();
       } else {
