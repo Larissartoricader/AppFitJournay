@@ -204,37 +204,6 @@ export default function DaysCalculator({ currentUser, userId }) {
   console.log("Progress Speed " + progessSpeed);
   console.log("Difference in Day " + diffInDays);
 
-  //OLD
-  // const oldestEntryDay = oldestEntryRaw.getUTCDate();
-  // const oldestEntryMonth = new Intl.DateTimeFormat("en-US", {
-  //   month: "long",
-  // }).format(oldestEntryRaw);
-  // const oldestEntryYear = oldestEntryRaw.getUTCFullYear();
-  // const oldestWeight = currentUser.entries[0].weight;
-  // const latestEntryRaw = new Date(
-  //   currentUser.entries[currentUser.entries.length - 1].date
-  // );
-  // const latestEntryDay = latestEntryRaw.getUTCDate();
-  // const latestEntryMonth = new Intl.DateTimeFormat("en-US", {
-  //   month: "long",
-  // }).format(latestEntryRaw);
-  // const latestEntryYear = latestEntryRaw.getUTCFullYear();
-
-  // const latestWeight =
-  //   currentUser.entries[currentUser.entries.length - 1].weight;
-
-  // const diffInMillicesonds = latestEntryRaw - oldestEntryRaw;
-  // const millisecondsPerDay = 1000 * 60 * 60 * 24;
-  // const diffInDays = Math.floor(diffInMillicesonds / millisecondsPerDay);
-
-  // const lackingPercentage = 100 - percentageAchieved;
-
-  // const progessSpeed =
-  //   Math.round(latestWeight - currentUser.projection) / diffInDays;
-  // const daysToReachGoal = Math.round(
-  //   (latestWeight - currentUser.projection) / progessSpeed
-  // );
-
   const props = useSpring({
     to: { width: `${percentageAchieved}%` },
     config: { duration: 800 },
