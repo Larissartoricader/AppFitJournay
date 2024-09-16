@@ -260,7 +260,7 @@ export default function Profile() {
               subtitle: "Highs and lows",
               description:
                 "Enter your impressions and information that will be added to your journey that goes far beyond the bodily. ",
-              url: `/profile/data?userId=${userId}`,
+              url: `/profile/impressions?userId=${userId}`,
               imageUrl:
                 "https://plus.unsplash.com/premium_photo-1661767959390-c0ad35845cce?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             },
