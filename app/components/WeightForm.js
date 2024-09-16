@@ -3,6 +3,8 @@ import useSWR from "swr";
 import { uid } from "uid";
 
 import ModalEditForm from "./ModalEditForm";
+import SnackEntryConfirmation from "./SnackEntryConfirmation";
+import { useState } from "react";
 
 const StyledForm = styled.form`
   border: solid 2px white;
@@ -160,6 +162,14 @@ const EntryDeleteButton = styled.button`
 `;
 
 export default function WeightForm({ user, userId }) {
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
   const { mutate } = useSWR(`/api/users/${userId}`);
 
   const entriesHistory = user.entries;
@@ -189,6 +199,7 @@ export default function WeightForm({ user, userId }) {
       if (response.ok) {
         mutate();
         console.log("Entry successfully added!");
+        setSnackbarOpen(true);
       } else {
         console.error("Failed to add entry. Response:", response);
       }
@@ -274,6 +285,10 @@ export default function WeightForm({ user, userId }) {
           <SubmitSpan2>Done</SubmitSpan2>
         </SubmitButton>
       </StyledForm>
+      <SnackEntryConfirmation
+        open={snackbarOpen}
+        handleClose={handleSnackbarClose}
+      />
       <div>
         {entriesHistory.length === 0 ? (
           <h3>

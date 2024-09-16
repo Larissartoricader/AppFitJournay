@@ -8,7 +8,7 @@ import BackButton from "../components/BackButton";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
-import ConfirmationDeleteModal from "../components/ConfirmationMessage";
+import ConfirmationDeleteModal from "../components/ConfirmationDeleteMessage";
 
 const ProfilePageStyled = styled.div`
   position: relative;
