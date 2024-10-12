@@ -3,7 +3,15 @@ import BackButton from "@/app/components/BackButton";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import styled from "styled-components";
 import useSWR from "swr";
+
+const FeelingBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const feelingToEmoji = (feeling) => {
   switch (feeling.toLowerCase()) {
@@ -17,11 +25,32 @@ const feelingToEmoji = (feeling) => {
         />
       );
     case "unhappy":
-      return "🙁 Unhappy";
+      return (
+        <Image
+          src="https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
     case "joyful":
-      return "🥳 Joyful";
+      return (
+        <Image
+          src="https://media.giphy.com/media/cklPOHnHepdwBLRnQp/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
     case "content":
-      return "🙂 Content";
+      return (
+        <Image
+          src="https://media.giphy.com/media/aQYR1p8saOQla/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
     case "indifferent":
       return (
         <Image
@@ -32,13 +61,41 @@ const feelingToEmoji = (feeling) => {
         />
       );
     case "anxious":
-      return "😓 Anxious";
+      return (
+        <Image
+          src="https://media.giphy.com/media/dkgZ1hG1kUK0A7UNeS/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
     case "sad":
-      return "😢 Sad";
+      return (
+        <Image
+          src="https://media.giphy.com/media/UDD1PWeNwS1Co/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
     case "frustrated":
-      return "🙄 Frustrated";
+      return (
+        <Image
+          src="https://media.giphy.com/media/YVvTCqTBglkOs/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
     default:
-      return "😶";
+      return (
+        <Image
+          src="https://media.giphy.com/media/1AiMSH9YNZORvdbYEw/giphy.gif"
+          alt="Happy"
+          width="200"
+          height="300"
+        />
+      );
   }
 };
 
@@ -108,23 +165,16 @@ export default function ImpressionsPage() {
           enter your information.
         </h2>
       ) : (
-        <>
-          <p>Here you can see how you felt along the way.</p>
+        <FeelingBox>
           {mostFrequentFeeling && (
             <>
               <h3>Most Frequent Feeling</h3>
+              <p>Here you can see how you felt along the way.</p>
               <p>{feelingToEmoji(mostFrequentFeeling)}</p>
               <p>{mostFrequentFeeling}</p>
             </>
           )}
-          {/* <h2>divisao</h2>
-          {userEntries.map((entry) => (
-            <>
-              <p key={entry.id}>{feelingToEmoji(entry.feeling)}</p>
-              <p key={entry.id}>{entry.feeling}</p>
-            </>
-          ))} */}
-        </>
+        </FeelingBox>
       )}
     </>
   );
